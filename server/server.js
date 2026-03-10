@@ -5,6 +5,7 @@ import mongoose from "mongoose"
 import express from "express"
 // Enable CORS
 import cors from "cors"
+app.use(cors());
 // Connect to MongoDB
 import connectDB from "./config/db.js"
 // Import routes
