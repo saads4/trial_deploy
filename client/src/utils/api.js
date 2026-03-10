@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://biosynvanta.onrender.com', 
+  baseURL: 'https://biosynvanta.onrender.com/api', 
 });
 
 api.interceptors.request.use((config) => {
