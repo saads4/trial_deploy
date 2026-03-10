@@ -59,7 +59,7 @@ export default function Admin() {
 
   const fetchInquiries = async () => {
     try {
-      const res = await api.get("/inquiry");
+      const res = await api.get("/inquiry", { baseURL: '' });
       setInquiries(res.data.data || []);
     } catch (error) {
       console.error("Error fetching inquiries:", error);
@@ -158,7 +158,7 @@ export default function Admin() {
   const handleDeleteInquiry = async (id) => {
     if (!window.confirm("Are you sure you want to delete this inquiry?")) return;
     try {
-      await api.delete(`/inquiry/${id}`);
+      await api.delete(`/inquiry/${id}`, { baseURL: '' });
       fetchInquiries();
     } catch (error) {
       console.error("Error deleting inquiry:", error);
