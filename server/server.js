@@ -15,7 +15,7 @@ import inquiryRoutes from "./routes/inquiryRoutes.js";
 import companyContentRoutes from "./routes/companyContentRoutes.js";
 import certificateRoutes from "./routes/certificateRoutes.js";
 import errorHandler from "./middlewares/globalErrorHandler.js";
-import { detectLanguage } from "./middlewares/langMiddleware.js"
+import { detectLanguage } from "./middlewares/LangMiddleware.js"
 connectDB();
 const app = express()
 
