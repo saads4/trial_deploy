@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../utils/api";
 
 export default function Admin() {
   const [products, setProducts] = useState([]);
@@ -41,7 +41,7 @@ export default function Admin() {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get("http://localhost:5051/api/categories");
+      const res = await api.get("/categories");
       setCategories(res.data);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -50,7 +50,7 @@ export default function Admin() {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:5051/api/products");
+      const res = await api.get("/products");
       setProducts(res.data);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -59,7 +59,7 @@ export default function Admin() {
 
   const fetchInquiries = async () => {
     try {
-      const res = await axios.get("http://localhost:5051/inquiry");
+      const res = await api.get("/inquiry");
       setInquiries(res.data.data || []);
     } catch (error) {
       console.error("Error fetching inquiries:", error);
@@ -68,7 +68,7 @@ export default function Admin() {
 
   const fetchCertificates = async () => {
     try {
-      const res = await axios.get("http://localhost:5051/api/certificates/admin/all");
+      const res = await api.get("/certificates/admin/all");
       setCertificates(res.data.data || []);
     } catch (error) {
       console.error("Error fetching certificates:", error);
@@ -87,7 +87,7 @@ export default function Admin() {
       formData.append('image', productImageFile);
       formData.append('name', productName);
       formData.append('category', productCategory);
-      const response = await axios.post("http://localhost:5051/api/products", formData, {
+      const response = await api.post("/products", formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       alert("Product Added Successfully");
@@ -117,7 +117,7 @@ export default function Admin() {
       formData.append('name', categoryName);
       formData.append('slug', categorySlug);
       formData.append('description', categoryDescription);
-      const response = await axios.post("http://localhost:5051/api/categories", formData, {
+      const response = await api.post("/categories", formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       alert("Category Added Successfully");
@@ -138,7 +138,7 @@ export default function Admin() {
   const handleDeleteProduct = async (id) => {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
     try {
-      await axios.delete(`http://localhost:5051/api/products/${id}`);
+      await api.delete(`/products/${id}`);
       fetchProducts();
     } catch (error) {
       console.error("Error deleting product:", error);
@@ -148,7 +148,7 @@ export default function Admin() {
   const handleDeleteCategory = async (id) => {
     if (!window.confirm("Are you sure you want to delete this category?")) return;
     try {
-      await axios.delete(`http://localhost:5051/api/categories/${id}`);
+      await api.delete(`/categories/${id}`);
       fetchCategories();
     } catch (error) {
       console.error("Error deleting category:", error);
@@ -158,7 +158,7 @@ export default function Admin() {
   const handleDeleteInquiry = async (id) => {
     if (!window.confirm("Are you sure you want to delete this inquiry?")) return;
     try {
-      await axios.delete(`http://localhost:5051/inquiry/${id}`);
+      await api.delete(`/inquiry/${id}`);
       fetchInquiries();
     } catch (error) {
       console.error("Error deleting inquiry:", error);
@@ -180,7 +180,7 @@ export default function Admin() {
       formData.append('issuedBy', certificateIssuedBy);
       formData.append('issueDate', certificateIssueDate);
       formData.append('expiryDate', certificateExpiryDate);
-      const response = await axios.post("http://localhost:5051/api/certificates", formData, {
+      const response = await api.post("/certificates", formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       alert("Certificate Added Successfully");
@@ -203,7 +203,7 @@ export default function Admin() {
   const handleDeleteCertificate = async (id) => {
     if (!window.confirm("Are you sure you want to delete this certificate?")) return;
     try {
-      await axios.delete(`http://localhost:5051/api/certificates/${id}`);
+      await api.delete(`/certificates/${id}`);
       fetchCertificates();
     } catch (error) {
       console.error("Error deleting certificate:", error);
