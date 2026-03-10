@@ -59,7 +59,7 @@ export default function Admin() {
 
   const fetchInquiries = async () => {
     try {
-      const res = await api.get("/inquiry");
+      const res = await api.get("api/inquiry");
       setInquiries(res.data.data || []);
     } catch (error) {
       console.error("Error fetching inquiries:", error);
