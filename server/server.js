@@ -27,7 +27,7 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "https://biosynvanta.onrender.com",
+      "https://trial-deploy-rwrar7wti-saad-sayeds-projects-334da4fd.vercel.app",
       "http://localhost:5173"
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
