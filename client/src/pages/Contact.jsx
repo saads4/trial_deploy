@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../utils/api";
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: "", phone: "", subject: "", message: "" });
