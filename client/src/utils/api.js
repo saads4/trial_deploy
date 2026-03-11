@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: 'https://biosynvanta.onrender.com/api', 
+  timeout: 10000, // 10 second timeout
 });
 
 api.interceptors.request.use((config) => {

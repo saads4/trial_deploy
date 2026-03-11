@@ -23,8 +23,11 @@ export default function Contact() {
     setIsSubmitting(true);
     setSubmitStatus("");
     setErrorMessage("");
+    console.log("Submitting form with data:", formData);
     try {
+      console.log("Making API request to /inquiry");
       const response = await api.post("/inquiry", formData);
+      console.log("API response received:", response);
       if (response.data.success) {
         setSubmitStatus("success");
         setFormData({ name: "", phone: "", subject: "", message: "" });
@@ -35,7 +38,9 @@ export default function Contact() {
     } catch (error) {
       console.error("Error submitting form:", error);
       setSubmitStatus("error");
-      if (error.response) {
+      if (error.code === 'ECONNABORTED') {
+        setErrorMessage("Request timed out. The server may be slow to respond. Please try again.");
+      } else if (error.response) {
         // Server responded with error status
         setErrorMessage(error.response.data?.message || `Server error: ${error.response.status}`);
       } else if (error.request) {
