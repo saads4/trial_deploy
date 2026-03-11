@@ -27,11 +27,12 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "https://trial-deploy-rwrar7wti-saad-sayeds-projects-334da4fd.vercel.app",
-      "http://localhost:5173"
+      "http://localhost:5173",
+      /vercel\.app$/   // allow all vercel preview domains
     ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization", "x-language"]
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "x-language"],
+    credentials: true
   })
 );
 app.use(express.json());
@@ -45,7 +46,7 @@ app.get("/", (req, res) => {
 // Routes
 app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
-app.use("/inquiry", inquiryRoutes);
+app.use("/api/inquiry", inquiryRoutes);  // api/inquiry
 app.use("/api/company-content", companyContentRoutes);
 app.use("/api/certificates", certificateRoutes);
 
