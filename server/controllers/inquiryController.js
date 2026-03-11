@@ -5,24 +5,44 @@ import { sendEmail } from "../utils/sendEmail.js";
 
 export const createInquiry = asyncHandler(async (req, res) => {
   const { name, phone, subject, message } = req.body;
+  
+  // Save inquiry to database first
   await Inquiry.create(req.body);
-  // Try to send email, but don't fail request if email fails
-  try {
-    await sendEmail({
-      email: process.env.EMAIL_USER,
-      subject: `New Website Inquiry: ${subject}`,
-      name,
-      phone,
-      message
-    });
-  } catch (emailError) {
-    console.error("Email sending failed:", emailError);
-    // Continue with success response even if email fails
-  }
+  
+  // Send response immediately before trying to send email
   res.status(201).json({
     success: true,
     message: "Message sent! We will get back to you soon.",
   });
+  
+  // Try to send email in the background without blocking the response
+  try {
+    const sendEmailWithTimeout = async () => {
+      const transporterPromise = import('../utils/sendEmail.js').then(module => 
+        module.sendEmail({
+          email: process.env.EMAIL_USER,
+          subject: `New Website Inquiry: ${subject}`,
+          name,
+          phone,
+          message
+        })
+      );
+      
+      // Add 5 second timeout to email sending
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Email sending timeout')), 5000)
+      );
+      
+      await Promise.race([transporterPromise, timeoutPromise]);
+    };
+    
+    // Fire and forget - don't await this
+    sendEmailWithTimeout().catch(emailError => {
+      console.error("Email sending failed:", emailError);
+    });
+  } catch (emailError) {
+    console.error("Email setup failed:", emailError);
+  }
 });
 
 //Admin
