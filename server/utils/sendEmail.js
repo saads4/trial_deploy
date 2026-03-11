@@ -2,14 +2,14 @@ import nodemailer from 'nodemailer';
 
 export const sendEmail = async (options) => {
   try {
-    // Create transporter with better configuration
+    console.log("Creating email transporter with user:", process.env.EMAIL_USER);
+    
+    // Create transporter with Gmail-specific configuration
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false, // true for 465, false for other ports
+      service: "gmail", // Use service instead of host for better Gmail support
       auth: {
         user: process.env.EMAIL_USER, 
-        pass: process.env.EMAIL_PASS, 
+        pass: process.env.EMAIL_PASS, // This should be an App Password
       },
       // Add connection pooling and timeout
       pool: true,
@@ -44,7 +44,7 @@ export const sendEmail = async (options) => {
             </div>
             <div style="margin-top: 20px; padding: 15px; background-color: #e9ecef; border-radius: 6px;">
               <p style="margin: 0; font-size: 14px; color: #6c757d;">
-                This inquiry was submitted from the Biosynvanta website contact form.
+                This inquiry was submitted from Biosynvanta website contact form.
               </p>
               <p style="margin: 10px 0 0 0; font-size: 12px; color: #6c757d;">
                 Submitted on: ${new Date().toLocaleString()}
@@ -57,10 +57,20 @@ export const sendEmail = async (options) => {
 
     const result = await transporter.sendMail(message);
     console.log("Email sent successfully:", result.messageId);
+    console.log("Email details:", {
+      to: process.env.EMAIL_USER,
+      subject: options.subject,
+      from: process.env.EMAIL_USER
+    });
     return result;
 
   } catch (error) {
     console.error("Email sending failed:", error);
+    console.error("Error details:", {
+      code: error.code,
+      message: error.message,
+      command: error.command
+    });
     throw error;
   }
 };
