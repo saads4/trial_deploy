@@ -13,7 +13,7 @@ export const sendEmail = async (options) => {
 
   const message = {
     from: `Biosynvanta Website <${process.env.EMAIL_USER}>`,
-    to: options.email,
+    to: process.env.EMAIL_USER,
     subject: options.subject,
     text: options.message,
     html: `<h3>New Inquiry from ${options.name}</h3>
