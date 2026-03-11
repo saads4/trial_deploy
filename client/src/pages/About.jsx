@@ -181,62 +181,88 @@ export default function About() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">{coreValuesContent?.title || "Our Core Values"}</h2>
-            <p className="text-lg text-gray-600">{coreValuesContent?.subtitle || "The principles that guide everything we do"}</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              {coreValuesContent?.title || "Our Core Values"}
+            </h2>
+            <p className="text-lg text-gray-600">
+              {coreValuesContent?.subtitle || "The principles that guide everything we do"}
+            </p>
           </div>
+
           <div className="relative">
-            {/* First row - 3 items */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {/* First row */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10 place-items-center">
               {coreValuesContent?.values?.[0] && (
-                <div className="text-center transform lg:translate-y-4 w-full sm:max-w-sm">
+                <div className="text-center w-full max-w-sm md:-translate-y-4">
                   <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">{coreValuesContent.values[0].title}</h3>
-                    <p className="text-gray-600">{coreValuesContent.values[0].description}</p>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                      {coreValuesContent.values[0].title}
+                    </h3>
+                    <p className="text-gray-600">
+                      {coreValuesContent.values[0].description}
+                    </p>
                   </div>
                 </div>
               )}
               {coreValuesContent?.values?.[1] && (
-                <div className="text-center transform lg:translate-y-4 w-full sm:max-w-sm">
+                <div className="text-center w-full max-w-sm md:-translate-y-8">
                   <div className="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border-2 border-blue-200">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">{coreValuesContent.values[1].title}</h3>
-                    <p className="text-gray-600">{coreValuesContent.values[1].description}</p>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                      {coreValuesContent.values[1].title}
+                    </h3>
+                    <p className="text-gray-600">
+                      {coreValuesContent.values[1].description}
+                    </p>
                   </div>
                 </div>
               )}
               {coreValuesContent?.values?.[2] && (
-                <div className="text-center transform lg:translate-y-4 w-full sm:max-w-sm">
+                <div className="text-center w-full max-w-sm md:-translate-y-4">
                   <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">{coreValuesContent.values[2].title}</h3>
-                    <p className="text-gray-600">{coreValuesContent.values[2].description}</p>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                      {coreValuesContent.values[2].title}
+                    </h3>
+                    <p className="text-gray-600">
+                      {coreValuesContent.values[2].description}
+                    </p>
                   </div>
                 </div>
               )}
             </div>
-            
-            {/* Second row - 2 centered items */}
-            <div className="flex flex-col sm:flex-row justify-center gap-8 items-center">
+
+            {/* Second row */}
+            <div className="flex flex-col md:flex-row justify-center items-center gap-8">
               {coreValuesContent?.values?.[3] && (
-                <div className="text-center transform lg:translate-y-4 w-full sm:max-w-sm">
+                <div className="text-center w-full max-w-sm md:translate-y-4">
                   <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">{coreValuesContent.values[3].title}</h3>
-                    <p className="text-gray-600">{coreValuesContent.values[3].description}</p>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                      {coreValuesContent.values[3].title}
+                    </h3>
+                    <p className="text-gray-600">
+                      {coreValuesContent.values[3].description}
+                    </p>
                   </div>
                 </div>
               )}
               {coreValuesContent?.values?.[4] && (
-                <div className="text-center transform lg:translate-y-4 w-full sm:max-w-sm">
+                <div className="text-center w-full max-w-sm md:translate-y-4">
                   <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">{coreValuesContent.values[4].title}</h3>
-                    <p className="text-gray-600">{coreValuesContent.values[4].description}</p>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                      {coreValuesContent.values[4].title}
+                    </h3>
+                    <p className="text-gray-600">
+                      {coreValuesContent.values[4].description}
+                    </p>
                   </div>
                 </div>
               )}
             </div>
-            
-            {/* Fallback for less than 5 values */}
+            {/* Fallback */}
             {(!coreValuesContent?.values || coreValuesContent.values.length < 5) && (
-              <div className="text-center">
-                <div className="text-gray-400 text-lg">No core values available at the moment.</div>
+              <div className="text-center mt-10">
+                <div className="text-gray-400 text-lg">
+                  No core values available at the moment.
+                </div>
               </div>
             )}
           </div>
