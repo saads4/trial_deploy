@@ -186,9 +186,9 @@ export default function About() {
           </div>
           <div className="relative">
             {/* First row - 3 items */}
-            <div className="grid grid-cols-3 gap-8 mb-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
               {coreValuesContent?.values?.[0] && (
-                <div className="text-center transform -translate-y-4">
+                <div className="text-center transform lg:translate-y-4 w-full sm:max-w-sm">
                   <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
                     <h3 className="text-xl font-semibold text-gray-900 mb-3">{coreValuesContent.values[0].title}</h3>
                     <p className="text-gray-600">{coreValuesContent.values[0].description}</p>
@@ -196,7 +196,7 @@ export default function About() {
                 </div>
               )}
               {coreValuesContent?.values?.[1] && (
-                <div className="text-center transform -translate-y-4">
+                <div className="text-center transform lg:translate-y-4 w-full sm:max-w-sm">
                   <div className="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border-2 border-blue-200">
                     <h3 className="text-xl font-semibold text-gray-900 mb-3">{coreValuesContent.values[1].title}</h3>
                     <p className="text-gray-600">{coreValuesContent.values[1].description}</p>
@@ -204,7 +204,7 @@ export default function About() {
                 </div>
               )}
               {coreValuesContent?.values?.[2] && (
-                <div className="text-center transform -translate-y-4">
+                <div className="text-center transform lg:translate-y-4 w-full sm:max-w-sm">
                   <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
                     <h3 className="text-xl font-semibold text-gray-900 mb-3">{coreValuesContent.values[2].title}</h3>
                     <p className="text-gray-600">{coreValuesContent.values[2].description}</p>
@@ -214,9 +214,9 @@ export default function About() {
             </div>
             
             {/* Second row - 2 centered items */}
-            <div className="flex justify-center gap-8">
+            <div className="flex flex-col sm:flex-row justify-center gap-8 items-center">
               {coreValuesContent?.values?.[3] && (
-                <div className="text-center transform translate-y-4 flex-1 max-w-sm">
+                <div className="text-center transform lg:translate-y-4 w-full sm:max-w-sm">
                   <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
                     <h3 className="text-xl font-semibold text-gray-900 mb-3">{coreValuesContent.values[3].title}</h3>
                     <p className="text-gray-600">{coreValuesContent.values[3].description}</p>
@@ -224,7 +224,7 @@ export default function About() {
                 </div>
               )}
               {coreValuesContent?.values?.[4] && (
-                <div className="text-center transform translate-y-4 flex-1 max-w-sm">
+                <div className="text-center transform lg:translate-y-4 w-full sm:max-w-sm">
                   <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
                     <h3 className="text-xl font-semibold text-gray-900 mb-3">{coreValuesContent.values[4].title}</h3>
                     <p className="text-gray-600">{coreValuesContent.values[4].description}</p>
