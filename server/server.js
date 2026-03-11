@@ -28,7 +28,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      /vercel\.app$/   // allow all vercel preview domains
+      "https://biosynvanta.vercel.app",
+      /.*\.vercel\.app$/   // allow all vercel domains
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "x-language"],
