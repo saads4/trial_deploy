@@ -22,7 +22,7 @@ export default function Contact() {
     setIsSubmitting(true);
     setSubmitStatus("");
     try {
-      const response = await axios.post("http://localhost:5051/inquiry", formData);
+      const response = await api.post("/inquiry", formData);
       if (response.data.success) {
         setSubmitStatus("success");
         setFormData({ name: "", phone: "", subject: "", message: "" });
