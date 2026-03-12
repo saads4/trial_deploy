@@ -22,22 +22,31 @@ function App() {
     <LanguageContext.Provider value={{ language, setLanguage }}>
       <Router>
         {/* Header Bar */}
-        <div className="bg-[#1fa3b9] text-white text-sm">
-  <div className="max-w-7xl mx-auto px-6 py-2 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+        import { FaLinkedin } from "react-icons/fa";
 
-    <div className="flex flex-wrap items-center gap-4">
-      <p className="font-medium whitespace-nowrap">+91 89765 04666</p>
-      <p className="font-medium">sales@biosynvanta.com</p>
+<div className="bg-[#1fa3b9] text-white text-xs sm:text-sm">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex items-center justify-between">
+
+    {/* Phone */}
+    <span className="font-medium whitespace-nowrap flex-shrink-0">
+      +91 89765 04666
+    </span>
+
+    {/* Email + LinkedIn */}
+    <div className="flex items-center gap-4 sm:gap-6">
+      <span className="font-medium truncate">
+        sales@biosynvanta.com
+      </span>
+
+      <a
+        href="https://www.linkedin.com/company/biosynvanta"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="hover:opacity-80 transition-opacity"
+      >
+        <FaLinkedin className="text-lg" />
+      </a>
     </div>
-
-    <a
-      href="https://www.linkedin.com/company/biosynvanta"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="font-medium hover:opacity-80 transition-opacity"
-    >
-      LinkedIn
-    </a>
 
   </div>
 </div>
