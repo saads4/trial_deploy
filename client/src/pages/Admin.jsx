@@ -120,7 +120,7 @@ export default function Admin() {
 
     try {
 
-      const res = await api.get("/inquiry", { baseURL: '' });
+      const res = await api.get("/inquiry");
 
       setInquiries(res.data.data || []);
 

@@ -5,6 +5,7 @@ export default function Contact() {
   const [formData, setFormData] = useState({ name: "", phone: "", subject: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (submitStatus === "success") {
@@ -21,17 +22,34 @@ export default function Contact() {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus("");
+    setErrorMessage("");
+    console.log("Submitting form with data:", formData);
     try {
+      console.log("Making API request to /inquiry");
       const response = await api.post("/inquiry", formData);
+      console.log("API response received:", response);
       if (response.data.success) {
         setSubmitStatus("success");
         setFormData({ name: "", phone: "", subject: "", message: "" });
       } else {
         setSubmitStatus("error");
+        setErrorMessage(response.data.message || "Failed to send message");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
       setSubmitStatus("error");
+      if (error.code === 'ECONNABORTED') {
+        setErrorMessage("Request timed out. The server may be slow to respond. Please try again.");
+      } else if (error.response) {
+        // Server responded with error status
+        setErrorMessage(error.response.data?.message || `Server error: ${error.response.status}`);
+      } else if (error.request) {
+        // Request was made but no response received
+        setErrorMessage("Network error. Please check your connection and try again.");
+      } else {
+        // Something else happened
+        setErrorMessage("An unexpected error occurred. Please try again.");
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -115,11 +133,16 @@ export default function Contact() {
             )}
             {submitStatus === "error" && (
               <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-                <div className="flex items-center">
-                  <svg className="w-5 h-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="flex items-start">
+                  <svg className="w-5 h-5 text-red-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <p className="text-red-700 font-medium">Something went wrong. Please try again later.</p>
+                  <div>
+                    <p className="text-red-700 font-medium">Something went wrong.</p>
+                    {errorMessage && (
+                      <p className="text-red-600 text-sm mt-1">{errorMessage}</p>
+                    )}
+                  </div>
                 </div>
               </div>
             )}
