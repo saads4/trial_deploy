@@ -22,17 +22,17 @@ function App() {
     <LanguageContext.Provider value={{ language, setLanguage }}>
       <Router>
         {/* Header Bar */}
-        <div className="bg-[#1fa3b9] text-white text-xs sm:text-sm">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-0">
+        <div className="bg-[#1fa3b9] text-white text-sm">
+  <div className="max-w-7xl mx-auto px-6 py-2 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
 
-    {/* Contact Info */}
-    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-6 text-center sm:text-left">
+    {/* Left Side */}
+    <div className="flex flex-wrap items-center gap-4">
       <p className="font-medium">+91 89765 04666</p>
       <p className="font-medium">sales@biosynvanta.com</p>
     </div>
 
-    {/* LinkedIn */}
-    <div className="text-center sm:text-right">
+    {/* Right Side */}
+    <div>
       <a
         href="https://www.linkedin.com/company/biosynvanta"
         target="_blank"
@@ -42,6 +42,7 @@ function App() {
         LinkedIn
       </a>
     </div>
+
   </div>
 </div>
 
