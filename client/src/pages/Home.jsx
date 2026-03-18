@@ -253,12 +253,9 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {whyCards.length > 0 ? (
               whyCards.map((card) => (
-                <div key={card._id} className="flip-card-container h-80">
+                <div key={card._id} className="flip-card-container h-80 group">
                   <div 
-                    className={`flip-card relative w-full h-full cursor-pointer transition-transform duration-700 transform-style-preserve-3d ${
-                      flippedCards[card._id] ? 'rotate-y-180' : ''
-                    }`}
-                    onClick={() => handleCardFlip(card._id)}
+                    className="flip-card relative w-full h-full transition-transform duration-700 transform-style-preserve-3d group-hover:rotate-y-180"
                     style={{ transformStyle: 'preserve-3d' }}
                   >
                     {/* Front of card - Image */}
@@ -309,7 +306,7 @@ export default function Home() {
       </section>
       <div className="mt-12 text-center py-12" style={{backgroundColor: 'rgba(37, 181, 174, 0.2)'}}>
         <div className="max-w-4xl mx-auto px-6">
-          <h3 className="text-lg font-semibold mb-2 text-gradient">
+          <h3 className="text-3xl font-semibold mb-2 text-gradient">
             Get in Touch
           </h3>
           <p className="mb-4 max-w-2xl mx-auto" style={{color: 'var(--text-secondary)'}}>

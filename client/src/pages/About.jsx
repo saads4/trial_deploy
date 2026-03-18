@@ -78,13 +78,12 @@ export default function About() {
     <div className="min-h-screen" style={{backgroundColor: 'var(--bg-light)'}}>
       <div className="bg-white shadow-sm">
         <div className="max-w-6xl mx-auto px-6 py-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-gradient text-center">About Us</h1>
         </div>
       </div>
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gradient mb-4">{aboutContent?.title || "Who We Are"}</h2>
+            <h2 className="text-5xl font-bold text-gradient mb-4">{aboutContent?.title || "Who We Are"}</h2>
           </div>
           <div className="relative">
             <div className="float-right ml-8 mb-4 lg:w-2/5">

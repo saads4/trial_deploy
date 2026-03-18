@@ -6,9 +6,9 @@ export const uiText = {
     aboutUs: "About Us",
     enquireNow: "Enquire Now",
     home: "Home",
-    about: "About",
+    about: "About Us",
     products: "Products",
-    contact: "Contact",
+    contact: "Contact Us",
     footerDesc: "Leading exporter of high-quality medical, surgical, and laboratory products worldwide.",
     email: "Email:",
     phone: "Phone:",
@@ -49,7 +49,7 @@ export const uiText = {
     val5Title: "التعزيز التشغيلي المستمر", val5Desc: "نقوم باستمرار بتحسين استراتيجيات التوريد لدينا وعمليات اختيار البائعين وتنفيذ سلسلة التوريد."
   },
   fr: {
-    quickLinks: "Liens Rapides", contactUs: "Contactez-Nous", productCategories: "Catégories de Produits", aboutUs: "À Propos", enquireNow: "Se Renseigner", home: "Accueil", about: "À propos", products: "Produits", contact: "Contact",
+    quickLinks: "Liens Rapides", contactUs: "Contactez-Nous", productCategories: "Catégories de Produits", aboutUs: "À Propos", enquireNow: "Se Renseigner", home: "Accueil", about: "À propos", products: "Produits", contact: "Contact Us",
     footerDesc: "Premier exportateur de produits médicaux, chirurgicaux et de laboratoire de haute qualité dans le monde entier.",
     email: "Email:", phone: "Téléphone:", address: "Adresse:", addressText: "Mumbai - 400705, Maharashtra, Inde",
     viewAllCategories: "Voir toutes les catégories", exploreCategories: "Découvrez notre gamme complète de catégories médicales",

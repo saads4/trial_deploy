@@ -56,23 +56,31 @@ export default function Navbar() {
       <div className="container mx-auto px-6 py-4 flex items-center justify-between relative">
         {/* Logo */}
         <div className="flex items-center gap-2 z-10">
-          <Link to="/" className="text-3xl font-extrabold tracking-tight font-albert text-gradient">
+          <Link to="/" className="text-4xl font-extrabold tracking-tight font-albert text-gradient">
             biosynvanta
           </Link>
         </div>
         {/* Desktop navigation */}
         <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-8 font-medium" style={{color: 'var(--text-primary)'}}>
           <Link to="/" className="link-primary" style={{color: 'var(--deep-blue)'}}>Home</Link>
-          <Link to="/about" className="link-primary" style={{color: 'var(--deep-blue)'}}>About</Link>
+          <Link to="/about" className="link-primary" style={{color: 'var(--deep-blue)'}}>About Us</Link>
           {/* Products dropdown */}
-          <div className="relative" onMouseEnter={() => setDropdownOpen(true)} onMouseLeave={() => setDropdownOpen(false)}>
-            <div className="flex items-center gap-1 cursor-pointer link-primary" style={{color: 'var(--deep-blue)'}}>
+          <div className="relative">
+            <div 
+              className="flex items-center gap-1 cursor-pointer link-primary" 
+              style={{color: 'var(--deep-blue)'}}
+              onMouseEnter={() => setDropdownOpen(true)}
+            >
               <Link to="/categories">Products</Link>
               <ChevronDown size={16} />
             </div>
-            <div className={`absolute left-0 mt-3 w-56 bg-white shadow-lg rounded-lg py-3 transition-all duration-300 ease-in-out ${
-              dropdownOpen ? "opacity-100 translate-y-0 visible" : "opacity-0 -translate-y-2 invisible"
-            }`}>
+            <div 
+              className={`absolute left-0 mt-3 w-56 bg-white shadow-lg rounded-lg py-3 transition-all duration-300 ease-in-out ${
+                dropdownOpen ? "opacity-100 translate-y-0 visible" : "opacity-0 -translate-y-2 invisible"
+              }`}
+              onMouseEnter={() => setDropdownOpen(true)}
+              onMouseLeave={() => setDropdownOpen(false)}
+            >
               {categories.map((cat) => (
                 <Link key={cat._id} to={`/products?category=${cat.slug}`} className="block px-4 py-2 hover:bg-blue-50">
                   {cat.name}
@@ -80,7 +88,7 @@ export default function Navbar() {
               ))}
             </div>
           </div>
-          <Link to="/contact" className="link-primary" style={{color: 'var(--deep-blue)'}}>Contact</Link>
+          <Link to="/contact" className="link-primary" style={{color: 'var(--deep-blue)'}}>Contact Us</Link>
         </div>
         {/* Language selector and CTA */}
         <div className="hidden md:flex items-center gap-6 z-10">
