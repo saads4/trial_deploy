@@ -8,6 +8,8 @@ export default function Home() {
   const [heroContent, setHeroContent] = useState(null);
   const [aboutContent, setAboutContent] = useState(null);
   const [faqContent, setFaqContent] = useState(null);
+  const [whyCards, setWhyCards] = useState([]);
+  const [flippedCards, setFlippedCards] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -56,6 +58,18 @@ export default function Home() {
     fetchCategories();
   }, []);
 
+  useEffect(() => {
+    const fetchWhyCards = async () => {
+      try {
+        const res = await api.get("/why-cards");
+        setWhyCards(res.data);
+      } catch (error) {
+        console.error("Error fetching why cards:", error);
+      }
+    };
+    fetchWhyCards();
+  }, []);
+
   const goToSlide = (index) => {
     setCurrentSlide(index);
   };
@@ -68,6 +82,13 @@ export default function Home() {
   const prevSlide = () => {
     if (slides.length === 0) return;
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  const handleCardFlip = (cardId) => {
+    setFlippedCards(prev => ({
+      ...prev,
+      [cardId]: !prev[cardId]
+    }));
   };
 
   if (loading) {
@@ -229,17 +250,63 @@ export default function Home() {
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Biosynvanta?</h2>
             <p className="text-lg text-gray-600">Your trusted partner in healthcare solutions</p>
           </div>
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {faqContent?.faqItems?.map((faq, index) => (
-              <div key={index} className="bg-white p-6 rounded-lg shadow-sm border-l-4 border-blue-600">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                  {faq.question}
-                </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  {faq.answer}
-                </p>
-              </div>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {whyCards.length > 0 ? (
+              whyCards.map((card) => (
+                <div key={card._id} className="flip-card-container h-80">
+                  <div 
+                    className={`flip-card relative w-full h-full cursor-pointer transition-transform duration-700 transform-style-preserve-3d ${
+                      flippedCards[card._id] ? 'rotate-y-180' : ''
+                    }`}
+                    onClick={() => handleCardFlip(card._id)}
+                    style={{ transformStyle: 'preserve-3d' }}
+                  >
+                    {/* Front of card - Image */}
+                    <div 
+                      className="flip-card-front absolute w-full h-full rounded-2xl shadow-lg overflow-hidden backface-hidden hover:scale-105 transition-transform duration-300"
+                      style={{ backfaceVisibility: 'hidden' }}
+                    >
+                      <img 
+                        src={card.imageURL || "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"}
+                        alt={card.title}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          console.error('Failed to load card image:', e.target.src);
+                          e.target.src = "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80";
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end p-6">
+                        <p className="text-white text-sm font-medium">Click to flip</p>
+                      </div>
+                    </div>
+                    
+                    {/* Back of card - Title and Description */}
+                    <div 
+                      className="flip-card-back absolute w-full h-full bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-center backface-hidden rotate-y-180"
+                      style={{ 
+                        backfaceVisibility: 'hidden',
+                        transform: 'rotateY(180deg)'
+                      }}
+                    >
+                      <h3 className="text-xl font-bold text-gray-900 mb-4">{card.title}</h3>
+                      <p className="text-gray-600 leading-relaxed">{card.description}</p>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              // Fallback to FAQ content if whyCards is empty
+              faqContent?.faqItems?.map((faq, index) => (
+                <div key={index} className="bg-white p-6 rounded-lg shadow-sm border-l-4 border-blue-600">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                    {faq.question}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    {faq.answer}
+                  </p>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </section>
@@ -270,6 +337,61 @@ export default function Home() {
         }
         .animate-fade-in-delay-2 {
           animation: fade-in 1s ease-out 0.6s both;
+        }
+        
+        /* Flip Card Styles */
+        .flip-card-container {
+          perspective: 1000px;
+        }
+        
+        .flip-card {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          text-align: center;
+          transition: transform 0.7s;
+          transform-style: preserve-3d;
+        }
+        
+        .flip-card.rotate-y-180 {
+          transform: rotateY(180deg);
+        }
+        
+        .flip-card-front,
+        .flip-card-back {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          border-radius: 1rem;
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .flip-card-front {
+          background-color: #ffffff;
+        }
+        
+        .flip-card-back {
+          background-color: #ffffff;
+          transform: rotateY(180deg);
+        }
+        
+        .hover\:scale-105:hover {
+          transform: scale(1.05);
+        }
+        
+        .backface-hidden {
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+        }
+        
+        .rotate-y-180 {
+          transform: rotateY(180deg);
+        }
+        
+        .transform-style-preserve-3d {
+          transform-style: preserve-3d;
         }
       `}</style>
     </div>

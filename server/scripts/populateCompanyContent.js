@@ -148,6 +148,96 @@ const sampleContent = [
 
   {
 
+    sectionName: 'why-cards',
+
+    title: 'Why Choose Biosynvanta',
+
+    subtitle: 'Experience excellence in healthcare solutions',
+
+    content: 'Discover the reasons to partner with us',
+
+    whyCards: [
+
+      {
+
+        title: "Quality Assurance",
+
+        description: "We maintain stringent quality control measures and comply with international standards including ISO, CE, and FDA requirements.",
+
+        imageURL: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+
+        order: 1
+
+      },
+
+      {
+
+        title: "Global Expertise",
+
+        description: "With over two decades of experience in international healthcare exports, we understand global market requirements.",
+
+        imageURL: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+
+        order: 2
+
+      },
+
+      {
+
+        title: "Competitive Pricing",
+
+        description: "Through efficient vendor coordination and cost-optimized sourcing, we offer the best value without compromising quality.",
+
+        imageURL: "https://images.unsplash.com/photo-1551190822-a933eaa22b19?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+
+        order: 3
+
+      },
+
+      {
+
+        title: "Reliable Supply Chain",
+
+        description: "Our structured export-focused supply chain ensures consistent product availability and timely delivery worldwide.",
+
+        imageURL: "https://images.unsplash.com/photo-1582719471384-89dbfa4e6835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+
+        order: 4
+
+      },
+
+      {
+
+        title: "Customer Support",
+
+        description: "We provide dedicated customer service and technical support to ensure smooth procurement and after-sales service.",
+
+        imageURL: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+
+        order: 5
+
+      },
+
+      {
+
+        title: "Innovation Focus",
+
+        description: "We continuously update our product portfolio with the latest healthcare innovations and technological advancements.",
+
+        imageURL: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+
+        order: 6
+
+      }
+
+    ],
+
+    order: 8
+
+},
+
+  {
+
     sectionName: 'mission',
 
     title: 'Our Mission',
@@ -235,129 +325,80 @@ const sampleContent = [
   order: 7
 
 }
-
 ];
 
-
-
 export const populateSampleContent = async () => {
-
   try {
-
     // Check if we need to connect (prevents errors if server.js already connected)
-
     if (mongoose.connection.readyState === 0) {
-
       await mongoose.connect(process.env.MONGO_URI);
-
       console.log('Connected to database');
-
     }
-
     
-
     console.log('Populating and Translating sample CompanyContent... (This might take a few seconds)');
-
     
-
     for (const content of sampleContent) {
-
       // 1. Pass the English text through your AI Translator
-
       const translatedTitle = await translateContent(content.title);
-
       const translatedSubtitle = await translateContent(content.subtitle);
-
       const translatedText = await translateContent(content.content);
 
-
-
       // 2. Loop through and translate all FAQs if they exist
-
       let translatedFaqs = [];
-
       if (content.faqItems && content.faqItems.length > 0) {
-
         translatedFaqs = await Promise.all(content.faqItems.map(async (faq) => ({
-
           question: await translateContent(faq.question),
-
           answer: await translateContent(faq.answer)
-
         })));
-
       }
-
-
 
       // 3. Loop through and translate all values if they exist
-
       let translatedValues = [];
-
       if (content.values && content.values.length > 0) {
-
         translatedValues = await Promise.all(content.values.map(async (value) => ({
-
           title: await translateContent(value.title),
-
           description: await translateContent(value.description)
-
         })));
-
       }
 
+      // 4. Loop through and translate all whyCards if they exist
+      let translatedWhyCards = [];
+      if (content.whyCards && content.whyCards.length > 0) {
+        translatedWhyCards = await Promise.all(content.whyCards.map(async (card) => ({
+          title: await translateContent(card.title),
+          description: await translateContent(card.description),
+          imageURL: card.imageURL,
+          isActive: card.isActive !== undefined ? card.isActive : true,
+          order: card.order
+        })));
+      }
 
-
-      // 3. Package it up into the exact format your MongoDB Model expects
-
+      // 5. Package it up into the exact format your MongoDB Model expects
       const modelFriendlyData = {
-
         sectionName: content.sectionName,
-
         images: content.images,
-
         order: content.order,
-
         title: translatedTitle,
-
         subtitle: translatedSubtitle,
-
         content: translatedText,
-
-        faqItems: translatedFaqs
-
+        faqItems: translatedFaqs,
+        values: translatedValues,
+        whyCards: translatedWhyCards
       };
 
-
-
-      // 🟢 4. Save to database (upsert: true guarantees NO duplicates!)
-
+      // 6. Save to database (upsert: true guarantees NO duplicates!)
       await CompanyContent.findOneAndUpdate(
-
         { sectionName: content.sectionName },
-
         modelFriendlyData,
-
         { upsert: true, returnDocument: 'after', overwrite: true }
-
       );
-
     }
 
-    
-
     console.log('Sample content translated and populated successfully! 🎉');
-
     
-
     // (Kept disconnected commented out so it doesn't crash your server!)
-
     //await mongoose.disconnect();
-
   } catch (error) {
-
     console.error('Error populating sample content:', error);
-
   }
-
 };

@@ -50,6 +50,18 @@ export const getCompanyContent = asyncHandler(async (req, res) => {
 
               description: localizeField(value.description, req.lang)
 
+          })) || [],
+
+          whyCards: content.whyCards?.filter(card => card.isActive)?.sort((a, b) => a.order - b.order)?.map(card => ({
+
+              _id: card._id,
+
+              title: localizeField(card.title, req.lang),
+
+              description: localizeField(card.description, req.lang),
+
+              imageURL: card.imageURL
+
           })) || []
 
       }));
@@ -111,6 +123,18 @@ export const getCompanyContent = asyncHandler(async (req, res) => {
             title: localizeField(value.title, req.lang),
 
             description: localizeField(value.description, req.lang)
+
+        })) || [],
+
+        whyCards: content.whyCards?.filter(card => card.isActive)?.sort((a, b) => a.order - b.order)?.map(card => ({
+
+            _id: card._id,
+
+            title: localizeField(card.title, req.lang),
+
+            description: localizeField(card.description, req.lang),
+
+            imageURL: card.imageURL
 
         })) || []
 
@@ -195,5 +219,72 @@ export const updateCompanyContent = asyncHandler(async (req, res) => {
   
 
   res.status(200).json({ success: true, data: updatedContent });
+
+});
+
+export const getWhyCards = asyncHandler(async (req, res) => {
+
+  try {
+
+    console.log('Fetching why cards...');
+
+    const content = await CompanyContent.findOne({ sectionName: 'why-cards' });
+
+    
+
+    console.log('Found content:', content ? 'Yes' : 'No');
+
+    if (content) {
+
+      console.log('Why cards count:', content.whyCards ? content.whyCards.length : 0);
+
+    }
+
+    
+
+    if (!content || !content.whyCards || content.whyCards.length === 0) {
+
+      console.log('Returning empty array');
+
+      return res.status(200).json({ success: true, data: [] });
+
+    }
+
+    
+
+    const whyCards = content.whyCards
+      .filter(card => card.isActive)
+
+      .sort((a, b) => a.order - b.order)
+
+      .map(card => ({
+
+        _id: card._id,
+
+        title: localizeField(card.title, req.lang),
+
+        description: localizeField(card.description, req.lang),
+
+        imageURL: card.imageURL
+
+      }));
+
+    
+
+    res.status(200).json({ success: true, data: whyCards });
+
+  } catch (error) {
+
+    console.error('Error fetching why cards:', error);
+
+    res.status(500).json({
+
+      success: false,
+
+      message: 'Internal server error',
+
+    });
+
+  }
 
 });

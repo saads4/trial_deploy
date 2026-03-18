@@ -31,6 +31,22 @@ const companyContentSchema = new mongoose.Schema({
     }],
     default: []
   },
+  whyCards: {
+    type: [{
+      title: multiLangString,
+      description: multiLangString,
+      imageURL: String,
+      isActive: {
+        type: Boolean,
+        default: true
+      },
+      order: {
+        type: Number,
+        default: 0
+      }
+    }],
+    default: []
+  },
   order: {
     type: Number,
     default: 0

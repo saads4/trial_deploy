@@ -1,10 +1,11 @@
 import express from "express";
-import { getCompanyContent,updateCompanyContent} from "../controllers/companyContentController.js";
+import { getCompanyContent,updateCompanyContent, getWhyCards} from "../controllers/companyContentController.js";
 // import { protect } from "../middlewares/authMiddleware.js";
 const router = express.Router()
 
 //Public
 router.get("/", getCompanyContent); 
+router.get("/why-cards", getWhyCards)
 router.get("/:sectionName", getCompanyContent)
 
 // Admin (temporarily remove auth for testing)
