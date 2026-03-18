@@ -56,9 +56,9 @@ export default function Navbar() {
       <div className="container mx-auto px-6 py-4 flex items-center justify-between relative">
         {/* Logo */}
         <div className="flex items-center gap-2 z-10">
-          <h1 className="text-3xl font-extrabold tracking-tight font-albert text-gradient">
+          <Link to="/" className="text-3xl font-extrabold tracking-tight font-albert text-gradient">
             biosynvanta
-          </h1>
+          </Link>
         </div>
         {/* Desktop navigation */}
         <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-8 font-medium" style={{color: 'var(--text-primary)'}}>
