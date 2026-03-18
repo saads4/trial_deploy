@@ -113,7 +113,7 @@ export default function Navbar() {
                 <button
                   key={lang.code}
                   onClick={() => handleLanguageChange(lang.code)}
-                  className={`block w-full text-left px-4 py-2 hover:bg-blue-50 ${language === lang.code ? 'text-blue-600 font-bold' : 'text-gray-700'}`}
+                  className={`block w-full text-left px-4 py-2 hover:bg-cyan-50 ${language === lang.code ? 'text-[#1fa3b9] font-bold' : 'text-gray-700'}`}
                 >
                   {lang.label}
                 </button>
@@ -169,7 +169,7 @@ export default function Navbar() {
                   onClick={() => handleLanguageChange(lang.code)}
                   className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                     language === lang.code
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-[#1fa3b9] text-white'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >

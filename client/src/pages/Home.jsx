@@ -169,7 +169,7 @@ export default function Home() {
               </p>
               <Link
                 to="/about"
-                className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300"
+                className="inline-block bg-[#1fa3b9] hover:bg-[#1a8ca0] text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300"
               >
                 Learn More
               </Link>
@@ -221,7 +221,7 @@ export default function Home() {
                     <h3 className="text-xl font-semibold text-gray-900 mb-4">{category.name}</h3>
                     <Link
                       to={`/products?category=${category.slug || category._id}`}
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300 inline-block text-center"
+                      className="w-full bg-[#1fa3b9] hover:bg-[#1a8ca0] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300 inline-block text-center"
                     >
                       View Details
                     </Link>
@@ -294,7 +294,7 @@ export default function Home() {
             ) : (
               // Fallback to FAQ content if whyCards is empty
               faqContent?.faqItems?.map((faq, index) => (
-                <div key={index} className="bg-white p-6 rounded-lg shadow-sm border-l-4 border-blue-600">
+                <div key={index} className="bg-white p-6 rounded-lg shadow-sm border-l-4 border-[#1fa3b9]">
                   <h3 className="text-xl font-semibold text-gray-900 mb-3">
                     {faq.question}
                   </h3>

@@ -582,7 +582,7 @@ export default function Admin() {
 
             <button type="submit" disabled={loading}
 
-              className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:opacity-50">
+              className="bg-[#1fa3b9] text-white py-2 rounded hover:bg-[#1a8ca0] disabled:opacity-50">
 
               {loading ? "Adding..." : "Add Product"}
 
@@ -642,7 +642,7 @@ export default function Admin() {
 
             <button type="submit" disabled={loading}
 
-              className="bg-green-600 text-white py-2 rounded hover:bg-green-700 disabled:opacity-50">
+              className="bg-[#1fa3b9] text-white py-2 rounded hover:bg-[#1a8ca0] disabled:opacity-50">
 
               {loading ? "Adding..." : "Add Category"}
 
@@ -734,7 +734,7 @@ export default function Admin() {
 
             <button type="submit" disabled={loading}
 
-              className="bg-purple-600 text-white py-2 rounded hover:bg-purple-700 disabled:opacity-50">
+              className="bg-[#1fa3b9] text-white py-2 rounded hover:bg-[#1a8ca0] disabled:opacity-50">
 
               {loading ? "Adding..." : "Add Certificate"}
 

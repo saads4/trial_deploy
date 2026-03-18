@@ -139,7 +139,7 @@ export default function Products() {
             </p>
             <Link
               to="/categories"
-              className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-300"
+              className="inline-block bg-[#1fa3b9] hover:bg-[#1a8ca0] text-white px-6 py-3 rounded-lg font-medium transition-colors duration-300"
             >
               Browse Categories
             </Link>

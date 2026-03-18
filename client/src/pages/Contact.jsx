@@ -424,7 +424,7 @@ export default function Contact() {
 
                   disabled={isSubmitting}
 
-                  className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 flex items-center"
+                  className="bg-[#1fa3b9] hover:bg-[#1a8ca0] disabled:bg-[#1a8ca0] text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 flex items-center"
 
                 >
 

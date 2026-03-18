@@ -54,7 +54,7 @@ export default function Categories() {
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">{category.name}</h3>
                 <Link
                   to={`/products?category=${category.slug || category._id}`}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300 inline-block text-center"
+                  className="w-full bg-[#1fa3b9] hover:bg-[#1a8ca0] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300 inline-block text-center"
                 >
                   View Details
                 </Link>
