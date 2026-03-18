@@ -75,7 +75,7 @@ export default function Products() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-16">
+    <div className="max-w-7xl mx-auto px-6 py-16 bg-cyan-50 min-h-screen">
       {category && categoryDetails && (
         <div className="mb-12">
           <Link

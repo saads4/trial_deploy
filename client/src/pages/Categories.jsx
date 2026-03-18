@@ -29,7 +29,7 @@ export default function Categories() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-16">
+    <div className="max-w-7xl mx-auto px-6 py-16 bg-cyan-50 min-h-screen">
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">All Categories</h1>
         <p className="text-lg text-gray-600">Explore our comprehensive range of medical categories</p>

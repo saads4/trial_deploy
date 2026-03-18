@@ -196,7 +196,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-cyan-50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Product Categories</h2>
