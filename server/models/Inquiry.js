@@ -6,9 +6,14 @@ const inquirySchema = new mongoose.Schema(
       type: String,
       required: [true, "Name is required"],
     },
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, "Invalid email address"],
+    },
     phone: {
       type: String,
-      required: [true, "Phone number is required"],
+      required: false,
       match: [/^[0-9+\-\s]+$/, "Invalid phone number"],
     },
     subject: {

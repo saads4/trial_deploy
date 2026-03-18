@@ -35,7 +35,8 @@ export const sendEmail = async (options) => {
             <h2 style="color: #333; margin-bottom: 20px;">New Website Inquiry</h2>
             <div style="background-color: white; padding: 20px; border-radius: 6px; border-left: 4px solid #007bff;">
               <p style="margin: 0 0 10px 0;"><strong>Name:</strong> ${options.name}</p>
-              <p style="margin: 0 0 10px 0;"><strong>Phone:</strong> ${options.phone}</p>
+              <p style="margin: 0 0 10px 0;"><strong>Email:</strong> ${options.email}</p>
+              <p style="margin: 0 0 10px 0;"><strong>Phone:</strong> ${options.phone || 'Not provided'}</p>
               <p style="margin: 0 0 10px 0;"><strong>Subject:</strong> ${options.subject}</p>
               <p style="margin: 0;"><strong>Message:</strong></p>
               <div style="background-color: #f8f9fa; padding: 15px; border-radius: 4px; margin-top: 10px;">

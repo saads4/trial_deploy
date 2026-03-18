@@ -4,7 +4,7 @@ import ErrorResponse from "../utils/errorResponse.js";
 import { sendEmail } from "../utils/sendEmail.js";
 
 export const createInquiry = asyncHandler(async (req, res) => {
-  const { name, phone, subject, message } = req.body;
+  const { name, email, phone, subject, message } = req.body;
   
   // Save inquiry to database first
   await Inquiry.create(req.body);
@@ -22,6 +22,7 @@ export const createInquiry = asyncHandler(async (req, res) => {
       email: process.env.EMAIL_USER,
       subject: `New Website Inquiry: ${subject}`,
       name,
+      email,
       phone,
       message
     });

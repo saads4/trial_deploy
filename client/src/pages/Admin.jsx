@@ -580,11 +580,8 @@ export default function Admin() {
             </div>
 
             <button type="submit" disabled={loading}
-
-              className="btn-primary-blue-teal">
-
+              className="btn-primary">
               {loading ? "Adding..." : "Add Product"}
-
             </button>
 
           </form>
@@ -640,10 +637,8 @@ export default function Admin() {
 
             <button type="submit" disabled={loading}
 
-              className="btn-primary-blue-teal">
-
+              className="btn-primary">
               {loading ? "Adding..." : "Add Category"}
-
             </button>
 
           </form>
@@ -731,10 +726,8 @@ export default function Admin() {
 
             <button type="submit" disabled={loading}
 
-              className="btn-primary-blue-teal">
-
+              className="btn-primary">
               {loading ? "Adding..." : "Add Certificate"}
-
             </button>
 
           </form>
