@@ -61,8 +61,8 @@ export default function Home() {
   useEffect(() => {
     const fetchWhyCards = async () => {
       try {
-        const res = await api.get("/why-cards");
-        setWhyCards(res.data);
+        const res = await api.get("/company-content/why-cards");
+        setWhyCards(res.data.data || res.data);
       } catch (error) {
         console.error("Error fetching why cards:", error);
       }

@@ -22,7 +22,7 @@ const sampleContent = [
 
     title: 'Welcome to Biosynvanta',
 
-    subtitle: 'Leading provider of quality medical equipment',
+    subtitle: 'Your Global Healthcare Supply Partner',
 
     content: 'Premium medical solutions for healthcare professionals worldwide',
 
@@ -50,7 +50,7 @@ const sampleContent = [
 
   title: 'About Biosynvanta',
 
-  subtitle: 'Your trusted healthcare partner',
+  subtitle: 'Your Global Healthcare Supply Partner',
 
   content: 'Biosynvanta is a Mumbai-based healthcare export company specializing in the global sourcing and supply of high-quality medical, surgical, and laboratory consumables. We support hospitals, laboratories, distributors, and procurement agencies worldwide by providing reliable and competitively priced healthcare products sourced from trusted Indian manufacturers. Working with carefully vetted partners operating under established quality management systems, our products comply with international standards such as ISO, CE, and FDA requirements. Through structured sourcing processes and export-focused supply chain management, Biosynvanta ensures consistent quality, dependable supply, and efficient global delivery for healthcare buyers.',
 
@@ -132,7 +132,7 @@ const sampleContent = [
 
     title: 'Who We Are',
 
-    subtitle: 'Leading the future of healthcare',
+    subtitle: 'Your Global Healthcare Supply Partner',
 
     content: `Biosynvanta is a Mumbai-based healthcare export company specializing in the global sourcing and distribution of medical, surgical, and laboratory consumables. We operate with a clear objective: to provide international healthcare buyers with reliable, compliant, and competitively positioned supply solutions from India.\n\nOur leadership team brings cross-functional expertise across regulatory affairs, quality systems, operations, marketing, human resources, and supply chain management. This multidisciplinary foundation enables us to rigorously evaluate manufacturing partners, maintain structured sourcing processes, and respond effectively to the operational and compliance requirements of global healthcare markets.\n\nWe supply a comprehensive portfolio of healthcare consumables to hospitals, laboratories, distributors, procurement agencies, and institutional buyers across international markets. Our product categories include infusion and injection systems, urology and urinary care solutions, blood collection and diagnostic consumables, wound care products, medical gloves, and laboratory disposables.\n\nBiosynvanta collaborates with carefully vetted Indian manufacturing partners operating under established quality management systems. These partners follow strict quality assurance protocols and maintain well-equipped facilities to ensure adherence to international standards, including ISO, CE, and FDA requirements. Through disciplined vendor selection, supply chain coordination, and export-focused logistics planning, we ensure consistent product availability, traceability, and cost efficiency for our global clients.\n\nOur approach is built on structured processes, compliance awareness, and long-term partnership thinking. We aim to support healthcare systems worldwide by delivering safe, hygienic, and operationally dependable consumables that meet the evolving demands of clinical and laboratory environments.`,
 
@@ -160,9 +160,9 @@ const sampleContent = [
 
       {
 
-        title: "Quality Assurance",
+        title: "Industry & Regulatory Understanding",
 
-        description: "We maintain stringent quality control measures and comply with international standards including ISO, CE, and FDA requirements.",
+        description: "Our team combines expertise across regulatory compliance, quality systems, operations, and supply chain management, enabling informed sourcing decisions and reliable international supply.",
 
         imageURL: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
 
@@ -172,9 +172,9 @@ const sampleContent = [
 
       {
 
-        title: "Global Expertise",
+        title: "Structured Manufacturer Selection & Quality Alignment",
 
-        description: "With over two decades of experience in international healthcare exports, we understand global market requirements.",
+        description: "We collaborate with qualified Indian manufacturers operating under established quality management systems and aligned with internationally recognized healthcare standards.",
 
         imageURL: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
 
@@ -184,9 +184,9 @@ const sampleContent = [
 
       {
 
-        title: "Competitive Pricing",
+        title: "Export-Focused Supply Chain Execution",
 
-        description: "Through efficient vendor coordination and cost-optimized sourcing, we offer the best value without compromising quality.",
+        description: "Our processes are structured specifically for international trade, covering procurement planning, documentation readiness, logistics coordination, and smooth cross-border shipment execution.",
 
         imageURL: "https://images.unsplash.com/photo-1551190822-a933eaa22b19?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
 
@@ -196,9 +196,9 @@ const sampleContent = [
 
       {
 
-        title: "Reliable Supply Chain",
+        title: "Consolidated Healthcare Consumables Portfolio",
 
-        description: "Our structured export-focused supply chain ensures consistent product availability and timely delivery worldwide.",
+        description: "We offer a curated portfolio of medical, surgical, and laboratory consumables, enabling distributors and healthcare institutions to streamline procurement through a single supply partner.",
 
         imageURL: "https://images.unsplash.com/photo-1582719471384-89dbfa4e6835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
 
@@ -208,9 +208,9 @@ const sampleContent = [
 
       {
 
-        title: "Customer Support",
+        title: "Commercial Competitiveness with Operational Discipline",
 
-        description: "We provide dedicated customer service and technical support to ensure smooth procurement and after-sales service.",
+        description: "Through efficient vendor coordination and cost-optimized sourcing, we maintain competitive pricing while safeguarding product reliability and supply continuity.",
 
         imageURL: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
 
@@ -220,9 +220,9 @@ const sampleContent = [
 
       {
 
-        title: "Innovation Focus",
+        title: "Long-Term Partnership Approach",
 
-        description: "We continuously update our product portfolio with the latest healthcare innovations and technological advancements.",
+        description: "We prioritize transparency, responsiveness, and relationship-driven engagement. Our goal is not transactional supply — but sustainable international partnerships built on trust and performance consistency.",
 
         imageURL: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
 
