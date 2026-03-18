@@ -226,25 +226,9 @@ export const getWhyCards = asyncHandler(async (req, res) => {
 
   try {
 
-    console.log('Fetching why cards...');
-
     const content = await CompanyContent.findOne({ sectionName: 'why-cards' });
 
-    
-
-    console.log('Found content:', content ? 'Yes' : 'No');
-
-    if (content) {
-
-      console.log('Why cards count:', content.whyCards ? content.whyCards.length : 0);
-
-    }
-
-    
-
     if (!content || !content.whyCards || content.whyCards.length === 0) {
-
-      console.log('Returning empty array');
 
       return res.status(200).json({ success: true, data: [] });
 

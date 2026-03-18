@@ -196,7 +196,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="py-16" style={{backgroundColor: '#F1F5F9'}}>
+      <section className="py-16" style={{backgroundColor: 'rgba(37, 181, 174, 0.2)'}}>
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gradient mb-4">Product Categories</h2>
@@ -307,8 +307,8 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <div className="mt-12 text-center">
-        <div className="card p-6">
+      <div className="mt-12 text-center py-12" style={{backgroundColor: 'rgba(37, 181, 174, 0.2)'}}>
+        <div className="max-w-4xl mx-auto px-6">
           <h3 className="text-lg font-semibold mb-2 text-gradient">
             Get in Touch
           </h3>

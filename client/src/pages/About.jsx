@@ -107,7 +107,7 @@ export default function About() {
           </div>
         </div>
       </section>
-      <section className="py-16" style={{backgroundColor: 'var(--bg-light)'}}>
+      <section className="py-16" style={{backgroundColor: 'rgba(37, 181, 174, 0.2)'}}>
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-8">
             <div className="card p-8 shadow-medium hover:shadow-lg transition-shadow duration-300">
@@ -178,7 +178,7 @@ export default function About() {
           )}
         </div>
       </section>
-      <section className="py-16" style={{backgroundColor: 'var(--bg-light)'}}>
+      <section className="py-16" style={{backgroundColor: 'rgba(37, 181, 174, 0.2)'}}>
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gradient mb-4">
@@ -206,7 +206,7 @@ export default function About() {
               )}
               {coreValuesContent?.values?.[1] && (
                 <div className="text-center w-full max-w-sm md:-translate-y-8">
-                  <div className="card p-6 shadow-medium hover:shadow-lg transition-all duration-300 border-2" style={{borderColor: 'var(--teal)', backgroundColor: 'rgba(37, 181, 174, 0.05)'}}>
+                  <div className="card p-6 shadow-medium hover:shadow-lg transition-all duration-300">
                     <h3 className="text-xl font-semibold mb-3" style={{color: 'var(--text-primary)'}}>
                       {coreValuesContent.values[1].title}
                     </h3>
