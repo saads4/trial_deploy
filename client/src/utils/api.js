@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL:'http://localhost:5051/api',  
+  baseURL: process.env.NODE_ENV === 'production' 
+    ? 'https://biosynvanta.onrender.com/api' 
+    : 'http://localhost:5051/api',
   timeout: 10000, // 10 second timeout
 });
 

@@ -28,7 +28,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://trial-deploy-rwrar7wti-saad-sayeds-projects-334da4fd.vercel.app"   //  exact Vercel URL from the error log!
+      "https://trial-deploy-rwrar7wti-saad-sayeds-projects-334da4fd.vercel.app",
+      "https://trial-deploy-coral.vercel.app"
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "x-language"],
