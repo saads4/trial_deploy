@@ -263,7 +263,7 @@ export default function Home() {
                   >
                     {/* Front of card - Image */}
                     <div 
-                      className="flip-card-front absolute w-full h-full rounded-2xl shadow-lg overflow-hidden backface-hidden hover:scale-105 transition-transform duration-300"
+                      className="flip-card-front absolute w-full h-full rounded-2xl shadow-lg overflow-hidden backface-hidden"
                       style={{ backfaceVisibility: 'hidden' }}
                     >
                       <img 
@@ -275,9 +275,6 @@ export default function Home() {
                           e.target.src = "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80";
                         }}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end p-6">
-                        <p className="text-white text-sm font-medium">Click to flip</p>
-                      </div>
                     </div>
                     
                     {/* Back of card - Title and Description */}
