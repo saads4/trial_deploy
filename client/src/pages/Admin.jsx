@@ -528,15 +528,14 @@ export default function Admin() {
 
   return (
 
-    <div className="max-w-7xl mx-auto py-16 px-6">
+    <div className="max-w-7xl mx-auto py-16 px-6" style={{backgroundColor: 'var(--bg-light)'}}>
 
-      <h1 className="text-3xl font-bold mb-8">Admin Panel</h1>
+      <h1 className="text-3xl font-bold text-blue-teal mb-8">Admin Panel</h1>
 
       <div className="grid md:grid-cols-2 gap-8">
 
-        <div className="bg-white p-6 rounded-lg shadow-md">
-
-          <h2 className="text-xl font-semibold mb-4">Add Product</h2>
+        <div className="card p-6 shadow-medium">
+          <h2 className="text-xl font-semibold mb-4" style={{color: 'var(--text-primary)'}}>Add Product</h2>
 
           <form onSubmit={handleAddProduct} className="flex flex-col gap-4">
 
@@ -544,13 +543,13 @@ export default function Admin() {
 
               onChange={(e) => setProductName(e.target.value)}
 
-              className="border p-2 rounded" required />
+              className="rounded-lg transition-colors duration-200" style={{border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-white)'}} required />
 
             <select value={productCategory}
 
               onChange={(e) => setProductCategory(e.target.value)}
 
-              className="border p-2 rounded" required>
+              className="rounded-lg transition-colors duration-200" style={{border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-white)'}} required>
 
               <option value="">Select Category</option>
 
@@ -564,7 +563,7 @@ export default function Admin() {
 
             <div className="space-y-2">
 
-              <label className="block text-sm font-medium text-gray-700">Product Image</label>
+              <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-primary)'}}>Product Image</label>
 
               <input type="file" accept="image/jpeg,image/jpg,image/png"
 
@@ -582,7 +581,7 @@ export default function Admin() {
 
             <button type="submit" disabled={loading}
 
-              className="bg-[#1fa3b9] text-white py-2 rounded hover:bg-[#1a8ca0] disabled:opacity-50">
+              className="btn-primary-blue-teal">
 
               {loading ? "Adding..." : "Add Product"}
 
@@ -592,9 +591,8 @@ export default function Admin() {
 
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-md">
-
-          <h2 className="text-xl font-semibold mb-4">Add Category</h2>
+        <div className="card p-6 shadow-medium">
+          <h2 className="text-xl font-semibold mb-4" style={{color: 'var(--text-primary)'}}>Add Category</h2>
 
           <form onSubmit={handleAddCategory} className="flex flex-col gap-4">
 
@@ -604,7 +602,7 @@ export default function Admin() {
 
               onChange={(e) => setCategoryName(e.target.value)}
 
-              className="border p-2 rounded" required />
+              className="rounded-lg transition-colors duration-200" style={{border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-white)'}} required />
 
             <input type="text" placeholder="Category Slug"
 
@@ -612,7 +610,7 @@ export default function Admin() {
 
               onChange={(e) => setCategorySlug(e.target.value)}
 
-              className="border p-2 rounded" required />
+              className="rounded-lg transition-colors duration-200" style={{border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-white)'}} required />
 
             <textarea placeholder="Description"
 
@@ -620,11 +618,11 @@ export default function Admin() {
 
               onChange={(e) => setCategoryDescription(e.target.value)}
 
-              className="border p-2 rounded" rows="3" />
+              className="rounded-lg transition-colors duration-200" style={{border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-white)'}} rows="3" />
 
             <div className="space-y-2">
 
-              <label className="block text-sm font-medium text-gray-700">Category Image</label>
+              <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-primary)'}}>Category Image</label>
 
               <input type="file" accept="image/jpeg,image/jpg,image/png"
 
@@ -642,7 +640,7 @@ export default function Admin() {
 
             <button type="submit" disabled={loading}
 
-              className="bg-[#1fa3b9] text-white py-2 rounded hover:bg-[#1a8ca0] disabled:opacity-50">
+              className="btn-primary-blue-teal">
 
               {loading ? "Adding..." : "Add Category"}
 
@@ -656,9 +654,8 @@ export default function Admin() {
 
       <div className="mt-12">
 
-        <div className="bg-white p-6 rounded-lg shadow-md">
-
-          <h2 className="text-xl font-semibold mb-4">Add Certificate</h2>
+        <div className="card p-6 shadow-medium">
+          <h2 className="text-xl font-semibold mb-4" style={{color: 'var(--text-primary)'}}>Add Certificate</h2>
 
           <form onSubmit={handleAddCertificate} className="flex flex-col gap-4">
 
@@ -668,7 +665,7 @@ export default function Admin() {
 
               onChange={(e) => setCertificateTitle(e.target.value)}
 
-              className="border p-2 rounded" required />
+              className="rounded-lg transition-colors duration-200" style={{border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-white)'}} required />
 
             <textarea placeholder="Certificate Description"
 
@@ -676,7 +673,7 @@ export default function Admin() {
 
               onChange={(e) => setCertificateDescription(e.target.value)}
 
-              className="border p-2 rounded" rows="3" />
+              className="rounded-lg transition-colors duration-200" style={{border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-white)'}} rows="3" />
 
             <input type="text" placeholder="Issued By (Optional)"
 
@@ -684,13 +681,13 @@ export default function Admin() {
 
               onChange={(e) => setCertificateIssuedBy(e.target.value)}
 
-              className="border p-2 rounded" />
+              className="rounded-lg transition-colors duration-200" style={{border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-white)'}} />
 
             <div className="grid grid-cols-2 gap-4">
 
               <div>
 
-                <label className="block text-sm font-medium text-gray-700 mb-1">Issue Date</label>
+                <label className="block text-sm font-medium mb-1" style={{color: 'var(--text-primary)'}}>Issue Date</label>
 
                 <input type="date" value={certificateIssueDate}
 
@@ -702,7 +699,7 @@ export default function Admin() {
 
               <div>
 
-                <label className="block text-sm font-medium text-gray-700 mb-1">Expiry Date (Optional)</label>
+                <label className="block text-sm font-medium mb-1" style={{color: 'var(--text-primary)'}}>Expiry Date (Optional)</label>
 
                 <input type="date" value={certificateExpiryDate}
 
@@ -716,7 +713,7 @@ export default function Admin() {
 
             <div className="space-y-2">
 
-              <label className="block text-sm font-medium text-gray-700">Certificate Image</label>
+              <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-primary)'}}>Certificate Image</label>
 
               <input type="file" accept="image/jpeg,image/jpg,image/png"
 
@@ -734,7 +731,7 @@ export default function Admin() {
 
             <button type="submit" disabled={loading}
 
-              className="bg-[#1fa3b9] text-white py-2 rounded hover:bg-[#1a8ca0] disabled:opacity-50">
+              className="btn-primary-blue-teal">
 
               {loading ? "Adding..." : "Add Certificate"}
 
@@ -748,17 +745,17 @@ export default function Admin() {
 
       <div className="mt-12">
 
-        <h2 className="text-2xl font-semibold mb-4">Products ({products.length})</h2>
+        <h2 className="text-2xl font-semibold mb-4" style={{color: 'var(--text-primary)'}}>Products ({products.length})</h2>
 
-        <div className="bg-white rounded-lg shadow-md overflow-x-auto">
+        <div className="card shadow-medium overflow-x-auto">
 
           <table className="w-full">
 
-            <thead className="bg-gray-50">
+            <thead style={{backgroundColor: 'var(--bg-light)'}}>
 
               <tr>
 
-                <th className="px-6 py-3 text-left">Product</th>
+                <th className="px-6 py-3 text-left" style={{color: 'var(--text-primary)'}}>Product</th>
 
                 <th className="px-6 py-3 text-left">Category</th>
 
@@ -790,7 +787,7 @@ export default function Admin() {
 
                       <div>
 
-                        <div className="font-medium">{product.name}</div>
+                        <div className="font-medium" style={{color: 'var(--text-primary)'}}>{product.name}</div>
 
                       </div>
 
@@ -828,11 +825,11 @@ export default function Admin() {
 
         <h2 className="text-2xl font-semibold mb-4">Categories ({categories.length})</h2>
 
-        <div className="bg-white rounded-lg shadow-md overflow-x-auto">
+        <div className="card shadow-medium overflow-x-auto">
 
           <table className="w-full">
 
-            <thead className="bg-gray-50">
+            <thead style={{backgroundColor: 'var(--bg-light)'}}>
 
               <tr>
 
@@ -870,7 +867,7 @@ export default function Admin() {
 
                       )}
 
-                      <div className="font-medium">{category.name}</div>
+                      <div className="font-medium" style={{color: 'var(--text-primary)'}}>{category.name}</div>
 
                     </div>
 
@@ -906,15 +903,17 @@ export default function Admin() {
 
         <h2 className="text-2xl font-semibold mb-4">Inquiries ({inquiries.length})</h2>
 
-        <div className="bg-white rounded-lg shadow-md overflow-x-auto">
+        <div className="card shadow-medium overflow-x-auto">
 
           <table className="w-full">
 
-            <thead className="bg-gray-50">
+            <thead style={{backgroundColor: 'var(--bg-light)'}}>
 
               <tr>
 
                 <th className="px-6 py-3 text-left">Name</th>
+
+                <th className="px-6 py-3 text-left">Email</th>
 
                 <th className="px-6 py-3 text-left">Phone</th>
 
@@ -938,7 +937,9 @@ export default function Admin() {
 
                   <td className="px-6 py-4">{inq.name}</td>
 
-                  <td className="px-6 py-4">{inq.phone}</td>
+                  <td className="px-6 py-4">{inq.email}</td>
+
+                  <td className="px-6 py-4">{inq.phone || '-'}</td>
 
                   <td className="px-6 py-4">{inq.subject}</td>
 
@@ -974,11 +975,11 @@ export default function Admin() {
 
         <h2 className="text-2xl font-semibold mb-4">Certificates ({certificates.length})</h2>
 
-        <div className="bg-white rounded-lg shadow-md overflow-x-auto">
+        <div className="card shadow-medium overflow-x-auto">
 
           <table className="w-full">
 
-            <thead className="bg-gray-50">
+            <thead style={{backgroundColor: 'var(--bg-light)'}}>
 
               <tr>
 
@@ -1024,7 +1025,7 @@ export default function Admin() {
 
                     <div>
 
-                      <div className="font-medium">{cert.title}</div>
+                      <div className="font-medium" style={{color: 'var(--text-primary)'}}>{cert.title}</div>
 
                       <div className="text-sm text-gray-500">
 

@@ -75,16 +75,16 @@ export default function About() {
   const certificates = certificatesContent || [];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{backgroundColor: 'var(--bg-light)'}}>
       <div className="bg-white shadow-sm">
         <div className="max-w-6xl mx-auto px-6 py-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 text-center">About Us</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-gradient text-center">About Us</h1>
         </div>
       </div>
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">{aboutContent?.title || "Who We Are"}</h2>
+            <h2 className="text-3xl font-bold text-gradient mb-4">{aboutContent?.title || "Who We Are"}</h2>
           </div>
           <div className="relative">
             <div className="float-right ml-8 mb-4 lg:w-2/5">
@@ -92,7 +92,7 @@ export default function About() {
                 <img
                   src={aboutContent?.images?.filter(image => image.includes('imagekit.io'))[0] || "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"}
                   alt="About Biosynvanta"
-                  className="w-full h-auto max-h-96 object-cover rounded-lg shadow-lg"
+                  className="w-full h-auto max-h-96 object-cover shadow-medium rounded-lg"
                   onError={(e) => {
                     console.error('Failed to load about image:', e.target.src);
                     e.target.src = "https://via.placeholder.com/600x400?text=About+Us+Image";
@@ -101,37 +101,37 @@ export default function About() {
               </div>
             </div>
             <div className="prose prose-lg max-w-none">
-              <p className="text-gray-600 leading-relaxed text-lg text-justify">{aboutContent?.content || "Loading content..."}</p>
+              <p style={{color: 'var(--text-secondary)'}} className="leading-relaxed text-lg text-justify">{aboutContent?.content || "Loading content..."}</p>
             </div>
             <div className="clear-both"></div>
           </div>
         </div>
       </section>
-      <section className="py-16 bg-gray-50">
+      <section className="py-16" style={{backgroundColor: 'var(--bg-light)'}}>
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+            <div className="card p-8 shadow-medium hover:shadow-lg transition-shadow duration-300">
               <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{backgroundColor: 'rgba(47, 111, 182, 0.1)'}}>
+                  <svg className="w-8 h-8" style={{color: 'var(--deep-blue)'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900">{missionContent?.title || "Our Mission"}</h3>
+                <h3 className="text-2xl font-bold" style={{color: 'var(--text-primary)'}}>{missionContent?.title || "Our Mission"}</h3>
               </div>
-              <p className="text-gray-600 leading-relaxed text-center">{missionContent?.content || "Loading mission content..."}</p>
+              <p style={{color: 'var(--text-secondary)'}} className="leading-relaxed text-center">{missionContent?.content || "Loading mission content..."}</p>
             </div>
-            <div className="bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+            <div className="card p-8 shadow-medium hover:shadow-lg transition-shadow duration-300">
               <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{backgroundColor: 'rgba(47, 111, 182, 0.1)'}}>
+                  <svg className="w-8 h-8" style={{color: 'var(--deep-blue)'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                   </svg>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900">{visionContent?.title || "Our Vision"}</h3>
+                <h3 className="text-2xl font-bold" style={{color: 'var(--text-primary)'}}>{visionContent?.title || "Our Vision"}</h3>
               </div>
-              <p className="text-gray-600 leading-relaxed text-center">{visionContent?.content || "Loading vision content..."}</p>
+              <p style={{color: 'var(--text-secondary)'}} className="leading-relaxed text-center">{visionContent?.content || "Loading vision content..."}</p>
             </div>
           </div>
         </div>
@@ -139,8 +139,8 @@ export default function About() {
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Certifications</h2>
-            <p className="text-lg text-gray-600">We maintain comprehensive certifications to ensure the highest quality and safety standards</p>
+            <h2 className="text-3xl font-bold text-gradient mb-4">Our Certifications</h2>
+            <p className="text-lg" style={{color: 'var(--text-secondary)'}}>We maintain comprehensive certifications to ensure the highest quality and safety standards</p>
           </div>
           {certificates.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -150,7 +150,7 @@ export default function About() {
                   className="group cursor-pointer transform transition-all duration-300 hover:scale-105"
                   onClick={() => openCertificateModal(certificate.imageUrl)}
                 >
-                  <div className="relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                  <div className="relative overflow-hidden rounded-lg shadow-medium hover:shadow-xl transition-shadow duration-300">
                     <img
                       src={certificate.imageUrl}
                       alt={certificate.title || "Certificate"}
@@ -167,24 +167,24 @@ export default function About() {
                       </div>
                     </div>
                   </div>
-                  <p className="text-center mt-3 text-sm text-gray-600 font-medium">{certificate.title || `Certificate`}</p>
+                  <p className="text-center mt-3 text-sm font-medium" style={{color: 'var(--text-secondary)'}}>{certificate.title || `Certificate`}</p>
                 </div>
               ))}
             </div>
           ) : (
             <div className="text-center py-12">
-              <div className="text-gray-400 text-lg">No certificates available at the moment.</div>
+              <div style={{color: 'var(--text-secondary)'}} className="text-lg">No certificates available at the moment.</div>
             </div>
           )}
         </div>
       </section>
-      <section className="py-16 bg-gray-50">
+      <section className="py-16" style={{backgroundColor: 'var(--bg-light)'}}>
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-bold text-gradient mb-4">
               {coreValuesContent?.title || "Our Core Values"}
             </h2>
-            <p className="text-lg text-gray-600">
+            <p className="text-lg" style={{color: 'var(--text-secondary)'}}>
               {coreValuesContent?.subtitle || "The principles that guide everything we do"}
             </p>
           </div>
@@ -194,11 +194,11 @@ export default function About() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10 place-items-center">
               {coreValuesContent?.values?.[0] && (
                 <div className="text-center w-full max-w-sm md:-translate-y-4">
-                  <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  <div className="card p-6 shadow-medium hover:shadow-lg transition-all duration-300">
+                    <h3 className="text-xl font-semibold mb-3" style={{color: 'var(--text-primary)'}}>
                       {coreValuesContent.values[0].title}
                     </h3>
-                    <p className="text-gray-600">
+                    <p style={{color: 'var(--text-secondary)'}}>
                       {coreValuesContent.values[0].description}
                     </p>
                   </div>
@@ -206,11 +206,11 @@ export default function About() {
               )}
               {coreValuesContent?.values?.[1] && (
                 <div className="text-center w-full max-w-sm md:-translate-y-8">
-                  <div className="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border-2 border-blue-200">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  <div className="card p-6 shadow-medium hover:shadow-lg transition-all duration-300 border-2" style={{borderColor: 'var(--teal)', backgroundColor: 'rgba(37, 181, 174, 0.05)'}}>
+                    <h3 className="text-xl font-semibold mb-3" style={{color: 'var(--text-primary)'}}>
                       {coreValuesContent.values[1].title}
                     </h3>
-                    <p className="text-gray-600">
+                    <p style={{color: 'var(--text-secondary)'}}>
                       {coreValuesContent.values[1].description}
                     </p>
                   </div>
@@ -218,11 +218,11 @@ export default function About() {
               )}
               {coreValuesContent?.values?.[2] && (
                 <div className="text-center w-full max-w-sm md:-translate-y-4">
-                  <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  <div className="card p-6 shadow-medium hover:shadow-lg transition-all duration-300">
+                    <h3 className="text-xl font-semibold mb-3" style={{color: 'var(--text-primary)'}}>
                       {coreValuesContent.values[2].title}
                     </h3>
-                    <p className="text-gray-600">
+                    <p style={{color: 'var(--text-secondary)'}}>
                       {coreValuesContent.values[2].description}
                     </p>
                   </div>
@@ -234,11 +234,11 @@ export default function About() {
             <div className="flex flex-col md:flex-row justify-center items-center gap-8">
               {coreValuesContent?.values?.[3] && (
                 <div className="text-center w-full max-w-sm md:translate-y-4">
-                  <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  <div className="card p-6 shadow-medium hover:shadow-lg transition-all duration-300">
+                    <h3 className="text-xl font-semibold mb-3" style={{color: 'var(--text-primary)'}}>
                       {coreValuesContent.values[3].title}
                     </h3>
-                    <p className="text-gray-600">
+                    <p style={{color: 'var(--text-secondary)'}}>
                       {coreValuesContent.values[3].description}
                     </p>
                   </div>
@@ -246,11 +246,11 @@ export default function About() {
               )}
               {coreValuesContent?.values?.[4] && (
                 <div className="text-center w-full max-w-sm md:translate-y-4">
-                  <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  <div className="card p-6 shadow-medium hover:shadow-lg transition-all duration-300">
+                    <h3 className="text-xl font-semibold mb-3" style={{color: 'var(--text-primary)'}}>
                       {coreValuesContent.values[4].title}
                     </h3>
-                    <p className="text-gray-600">
+                    <p style={{color: 'var(--text-secondary)'}}>
                       {coreValuesContent.values[4].description}
                     </p>
                   </div>
@@ -260,7 +260,7 @@ export default function About() {
             {/* Fallback */}
             {(!coreValuesContent?.values || coreValuesContent.values.length < 5) && (
               <div className="text-center mt-10">
-                <div className="text-gray-400 text-lg">
+                <div style={{color: 'var(--text-secondary)'}} className="text-lg">
                   No core values available at the moment.
                 </div>
               </div>
@@ -296,8 +296,8 @@ export default function About() {
               />
             </div>
             <div className="px-6 pb-4">
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Certificate Preview</h3>
-              <p className="text-gray-600 text-sm">Click anywhere outside or use the close button to exit preview</p>
+              <h3 className="text-xl font-semibold mb-2" style={{color: 'var(--text-primary)'}}>Certificate Preview</h3>
+              <p style={{color: 'var(--text-secondary)'}} className="text-sm">Click anywhere outside or use the close button to exit preview</p>
             </div>
           </div>
         </div>

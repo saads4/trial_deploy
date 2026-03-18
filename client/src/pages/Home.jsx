@@ -110,20 +110,20 @@ export default function Home() {
             }`}
           >
             <img src={slide.image} alt={slide.title} className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-black/60"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/70"></div>
           </div>
         ))}
         <div className="relative z-20 h-full flex items-center justify-center text-center px-6">
           <div className="max-w-4xl">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in text-white">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in-up text-white drop-shadow-lg">
               {heroContent?.title || "Welcome to Biosynvanta"}
             </h1>
-            <p className="text-xl md:text-2xl mb-8 animate-fade-in-delay text-white">
+            <p className="text-xl md:text-2xl mb-8 animate-fade-in-up-delay text-white drop-shadow-md">
               {heroContent?.subtitle || "Leading provider of quality medical equipment"}
             </p>
             <Link
               to="/contact"
-              className="inline-block bg-[#1fa3b9] hover:bg-[#1a8ca0] text-white font-bold py-4 px-8 rounded-full text-lg transition-colors duration-300 animate-fade-in-delay-2"
+              className="btn-primary text-lg animate-fade-in-up-delay-2"
             >
               Enquire Now
             </Link>
@@ -131,7 +131,7 @@ export default function Home() {
         </div>
         <button
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-3 rounded-full transition-all duration-300"
+          className="absolute left-4 top-1/2 transform -translate-y-1/2 glass text-white p-3 rounded-full transition-all duration-300 hover:scale-110"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -139,7 +139,7 @@ export default function Home() {
         </button>
         <button
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-3 rounded-full transition-all duration-300"
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 glass text-white p-3 rounded-full transition-all duration-300 hover:scale-110"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -150,26 +150,26 @@ export default function Home() {
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              className={`h-2 rounded-full transition-all duration-300 ${
                 index === currentSlide
-                  ? 'bg-white w-8'
-                  : 'bg-white bg-opacity-50 hover:bg-opacity-75'
+                  ? 'bg-white w-8 shadow-medium'
+                  : 'bg-white/50 hover:bg-white/75'
               }`}
             />
           ))}
         </div>
       </section>
-      <section className="py-16 bg-gray-50">
+      <section className="py-16" style={{backgroundColor: '#F1F5F9'}}>
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="text-left">
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">About Biosynvanta</h2>
-              <p className="text-lg text-gray-600 mb-8">
+              <h2 className="text-3xl font-bold text-gradient mb-6">About Biosynvanta</h2>
+              <p className="text-lg mb-8" style={{color: 'var(--text-secondary)'}}>
                 {aboutContent?.content || "Biosynvanta is a leading global provider of high-quality medical, surgical, and laboratory equipment. With over two decades of experience, we deliver innovative healthcare solutions that meet the highest international standards and exceed customer expectations worldwide."}
               </p>
               <Link
                 to="/about"
-                className="inline-block bg-[#1fa3b9] hover:bg-[#1a8ca0] text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300"
+                className="btn-primary"
               >
                 Learn More
               </Link>
@@ -179,7 +179,7 @@ export default function Home() {
                 <img
                   src={aboutContent.images[0]}
                   alt="About Biosynvanta"
-                  className="w-full h-96 object-cover rounded-lg shadow-lg"
+                  className="w-full h-96 object-cover shadow-medium rounded-lg"
                   onError={(e) => {
                     console.error('Failed to load about image:', e.target.src);
                     e.target.src = "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80";
@@ -189,24 +189,24 @@ export default function Home() {
                 <img
                   src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
                   alt="About Biosynvanta"
-                  className="w-full h-96 object-cover rounded-lg shadow-lg"
+                  className="w-full h-96 object-cover shadow-medium rounded-lg"
                 />
               )}
             </div>
           </div>
         </div>
       </section>
-      <section className="py-16 bg-cyan-50">
+      <section className="py-16" style={{backgroundColor: '#F1F5F9'}}>
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Product Categories</h2>
-            <p className="text-lg text-gray-600">Explore our comprehensive range of Healthcare products</p>
+            <h2 className="text-3xl font-bold text-gradient mb-4">Product Categories</h2>
+            <p className="text-lg" style={{color: 'var(--text-secondary)'}}>Explore our comprehensive range of Healthcare products</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             {categories.length > 0 ? (
               categories.map((category) => (
-                <div key={category._id} className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300">
-                  <div className="h-48 bg-gray-100">
+                <div key={category._id} className="card card-accent hover:shadow-lg transition-all duration-300">
+                  <div className="h-48" style={{backgroundColor: 'var(--bg-light)'}}>
                     <img
                       src={category.imageURL || "https://images.unsplash.com/photo-1579684451722-219f54b73314?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"}
                       alt={category.name}
@@ -218,10 +218,10 @@ export default function Home() {
                     />
                   </div>
                   <div className="p-6">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-4">{category.name}</h3>
+                    <h3 className="text-xl font-semibold mb-4" style={{color: 'var(--text-primary)'}}>{category.name}</h3>
                     <Link
                       to={`/products?category=${category.slug || category._id}`}
-                      className="w-full bg-[#1fa3b9] hover:bg-[#1a8ca0] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300 inline-block text-center"
+                      className="btn-primary text-sm"
                     >
                       View Details
                     </Link>
@@ -237,18 +237,18 @@ export default function Home() {
           <div className="text-center">
             <Link
               to="/categories"
-              className="inline-block bg-gray-900 hover:bg-gray-800 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-300"
+              className="btn-secondary"
             >
               View All Categories
             </Link>
           </div>
         </div>
       </section>
-      <section className="py-16 bg-gray-50">
+      <section className="py-16" style={{backgroundColor: '#F1F5F9'}}>
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Biosynvanta?</h2>
-            <p className="text-lg text-gray-600">Your trusted partner in healthcare solutions</p>
+            <h2 className="text-3xl font-bold text-gradient mb-4">Why Choose Biosynvanta?</h2>
+            <p className="text-lg" style={{color: 'var(--text-secondary)'}}>Your trusted partner in healthcare solutions</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {whyCards.length > 0 ? (
@@ -263,7 +263,7 @@ export default function Home() {
                   >
                     {/* Front of card - Image */}
                     <div 
-                      className="flip-card-front absolute w-full h-full rounded-2xl shadow-lg overflow-hidden backface-hidden"
+                      className="flip-card-front absolute w-full h-full rounded-2xl shadow-medium overflow-hidden backface-hidden"
                       style={{ backfaceVisibility: 'hidden' }}
                     >
                       <img 
@@ -279,14 +279,14 @@ export default function Home() {
                     
                     {/* Back of card - Title and Description */}
                     <div 
-                      className="flip-card-back absolute w-full h-full bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-center backface-hidden rotate-y-180"
+                      className="flip-card-back absolute w-full h-full shadow-medium p-6 flex flex-col justify-center backface-hidden rotate-y-180"
                       style={{ 
                         backfaceVisibility: 'hidden',
                         transform: 'rotateY(180deg)'
                       }}
                     >
-                      <h3 className="text-xl font-bold text-gray-900 mb-4">{card.title}</h3>
-                      <p className="text-gray-600 leading-relaxed">{card.description}</p>
+                      <h3 className="text-xl font-bold text-gradient mb-4">{card.title}</h3>
+                      <p style={{color: 'var(--text-secondary)'}} className="leading-relaxed">{card.description}</p>
                     </div>
                   </div>
                 </div>
@@ -294,11 +294,11 @@ export default function Home() {
             ) : (
               // Fallback to FAQ content if whyCards is empty
               faqContent?.faqItems?.map((faq, index) => (
-                <div key={index} className="bg-white p-6 rounded-lg shadow-sm border-l-4 border-[#1fa3b9]">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                <div key={index} className="card p-6 border-l-4" style={{borderColor: 'var(--teal)'}}>
+                  <h3 className="text-xl font-semibold mb-3" style={{color: 'var(--text-primary)'}}>
                     {faq.question}
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p style={{color: 'var(--text-secondary)'}} className="leading-relaxed">
                     {faq.answer}
                   </p>
                 </div>
@@ -308,15 +308,15 @@ export default function Home() {
         </div>
       </section>
       <div className="mt-12 text-center">
-        <div className="bg-blue-50 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+        <div className="card p-6">
+          <h3 className="text-lg font-semibold mb-2 text-gradient">
             Get in Touch
           </h3>
-          <p className="text-gray-600 mb-4 max-w-2xl mx-auto">
+          <p className="mb-4 max-w-2xl mx-auto" style={{color: 'var(--text-secondary)'}}>
             Explore our comprehensive portfolio of high-quality medical, surgical, and laboratory
             consumables engineered for global healthcare excellence.
           </p>
-          <p className="text-gray-700 font-semibold">
+          <p style={{color: 'var(--text-primary)'}} className="font-semibold">
             Contact Us: +91 89765 04666
           </p>
         </div>

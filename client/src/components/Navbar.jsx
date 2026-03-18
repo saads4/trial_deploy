@@ -46,18 +46,18 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white shadow-md relative z-50">
+    <nav className="bg-gray-50 shadow-sm relative z-50">
       <div className="container mx-auto px-6 py-4 flex items-center justify-between relative">
         <div className="flex items-center gap-2 z-10">
-          <h1 className="text-3xl font-extrabold tracking-tight font-albert bg-gradient-to-r from-blue-700 via-blue-500 to-teal-400 bg-clip-text text-transparent">
+          <h1 className="text-3xl font-extrabold tracking-tight font-albert text-gradient">
             biosynvanta
           </h1>
         </div>
-        <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-8 font-medium text-gray-700">
-          <Link to="/" className="hover:text-blue-600 transition">
+        <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-8 font-medium" style={{color: 'var(--text-primary)'}}>
+          <Link to="/" className="link-primary" style={{color: 'var(--deep-blue)'}}>
             Home
           </Link>
-          <Link to="/about" className="hover:text-blue-600 transition">
+          <Link to="/about" className="link-primary" style={{color: 'var(--deep-blue)'}}>
             About
           </Link>
           <div
@@ -65,7 +65,7 @@ export default function Navbar() {
             onMouseEnter={() => setDropdownOpen(true)}
             onMouseLeave={() => setDropdownOpen(false)}
           >
-            <div className="flex items-center gap-1 cursor-pointer hover:text-blue-600 transition">
+            <div className="flex items-center gap-1 cursor-pointer link-primary" style={{color: 'var(--deep-blue)'}}>
               <Link to="/categories">Products</Link>
               <ChevronDown size={16} />
             </div>
@@ -87,7 +87,7 @@ export default function Navbar() {
               ))}
             </div>
           </div>
-          <Link to="/contact" className="hover:text-blue-600 transition">
+          <Link to="/contact" className="link-primary" style={{color: 'var(--deep-blue)'}}>
             Contact
           </Link>
         </div>
@@ -97,7 +97,7 @@ export default function Navbar() {
             onMouseEnter={() => setLangDropdownOpen(true)}
             onMouseLeave={() => setLangDropdownOpen(false)}
           >
-            <div className="flex items-center gap-1 cursor-pointer hover:text-blue-600 text-gray-700 transition font-medium">
+            <div className="flex items-center gap-1 cursor-pointer link-primary font-medium" style={{color: 'var(--deep-blue)'}}>
               <Globe size={18} />
               <span className="uppercase">{language}</span>
               <ChevronDown size={16} />
@@ -113,7 +113,7 @@ export default function Navbar() {
                 <button
                   key={lang.code}
                   onClick={() => handleLanguageChange(lang.code)}
-                  className={`block w-full text-left px-4 py-2 hover:bg-cyan-50 ${language === lang.code ? 'text-[#1fa3b9] font-bold' : 'text-gray-700'}`}
+                  className={`block w-full text-left px-4 py-2 hover:bg-blue-50 ${language === lang.code ? 'text-teal font-bold' : ''}`}
                 >
                   {lang.label}
                 </button>
@@ -122,7 +122,7 @@ export default function Navbar() {
           </div>
           <Link
             to="/contact"
-            className="bg-[#1fa3b9] text-white px-5 py-2 rounded-full hover:bg-[#1a8ca0] transition duration-300"
+            className="btn-primary"
           >
             Enquire Now
           </Link>
@@ -138,7 +138,7 @@ export default function Navbar() {
           isOpen ? "max-h-screen py-4" : "max-h-0"
         }`}
       >
-        <div className="flex flex-col gap-4 px-6 text-gray-700">
+        <div className="flex flex-col gap-4 px-6" style={{color: 'var(--text-primary)'}}>
           <Link to="/" onClick={() => setIsOpen(false)}>
             Home
           </Link>
@@ -149,19 +149,20 @@ export default function Navbar() {
             Products
           </Link>
           <div>
-            <p className="font-semibold text-sm text-gray-500">Categories</p>
+            <p className="font-semibold text-sm" style={{color: 'var(--text-secondary)'}}>Categories</p>
             {categories.map((cat) => (
               <button
                 key={cat.slug}
                 onClick={() => handleCategoryClick(cat.slug)}
-                className="block text-left py-1 text-gray-600"
+                className="block text-left py-1"
+                style={{color: 'var(--text-secondary)'}}
               >
                 {cat.name}
               </button>
             ))}
           </div>
           <div className="border-t pt-4 mt-2">
-            <p className="font-semibold text-sm text-gray-500 mb-3">Language</p>
+            <p className="font-semibold text-sm mb-3" style={{color: 'var(--text-secondary)'}}>Language</p>
             <div className="flex flex-wrap gap-2">
               {supportedLanguages.map((lang) => (
                 <button
@@ -169,7 +170,7 @@ export default function Navbar() {
                   onClick={() => handleLanguageChange(lang.code)}
                   className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                     language === lang.code
-                      ? 'bg-[#1fa3b9] text-white'
+                      ? 'bg-gradient-primary text-white'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
@@ -183,7 +184,7 @@ export default function Navbar() {
           </Link>
           <Link
             to="/contact"
-            className="bg-[#1fa3b9] text-white text-center py-2 rounded-full"
+            className="bg-gradient-primary text-white text-center py-2 rounded-full"
             onClick={() => setIsOpen(false)}
           >
             Enquire Now

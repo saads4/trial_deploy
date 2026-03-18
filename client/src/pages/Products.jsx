@@ -69,18 +69,18 @@ export default function Products() {
     return (
       <div className="max-w-7xl mx-auto px-6 py-16">
         <h1 className="text-3xl font-bold mb-8">Our Products</h1>
-        <p className="text-gray-600">No products found.</p>
+        <p style={{color: 'var(--text-secondary)'}} className="text-lg">No products found.</p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-16 bg-cyan-50 min-h-screen">
+    <div className="max-w-7xl mx-auto px-6 py-16 min-h-screen" style={{backgroundColor: 'var(--bg-light)'}}>
       {category && categoryDetails && (
         <div className="mb-12">
           <Link
             to="/categories"
-            className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-6 transition-colors duration-200"
+            className="link-primary mb-6 transition-colors duration-200"
           >
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -88,9 +88,9 @@ export default function Products() {
             Back to Categories
           </Link>
           
-          <div className="bg-white rounded-xl shadow-lg p-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">{categoryDetails.name}</h1>
-            <p className="text-lg text-gray-600 leading-relaxed">
+          <div className="card p-8 shadow-lg">
+            <h1 className="text-4xl font-bold text-gradient mb-4">{categoryDetails.name}</h1>
+            <p className="text-lg leading-relaxed" style={{color: 'var(--text-secondary)'}}>
               {categoryDetails.description || "No description available for this category."}
             </p>
           </div>
@@ -98,15 +98,15 @@ export default function Products() {
       )}
 
       <div>
-        <h2 className="text-3xl font-bold text-gray-900 mb-8">
+        <h2 className="text-3xl font-bold text-gradient mb-8">
           {category && categoryDetails ? `Products in ${categoryDetails.name}` : 'Our Products'}
         </h2>
         
         {products.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {products.map((product) => (
-              <div key={product._id} className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300">
-                <div className="h-48 bg-gray-100">
+              <div key={product._id} className="card card-accent hover:shadow-lg transition-all duration-300">
+                <div className="h-48" style={{backgroundColor: 'var(--bg-light)'}}>
                   <img
                     src={product.imageUrl || product.image || "https://images.unsplash.com/photo-1579684451722-219f54b73314?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"}
                     alt={product.name}
@@ -119,14 +119,14 @@ export default function Products() {
                   />
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{product.name}</h3>
+                  <h3 className="text-xl font-semibold mb-2" style={{color: 'var(--text-primary)'}}>{product.name}</h3>
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <div className="text-center py-16 bg-gray-50 rounded-xl">
-            <div className="text-gray-400 mb-4">
+          <div className="text-center py-16 rounded-xl" style={{backgroundColor: 'var(--bg-light)'}}>
+            <div style={{color: 'var(--text-secondary)'}} className="mb-4">
               <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
               </svg>
@@ -134,12 +134,12 @@ export default function Products() {
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
               {category ? 'No Products Found in This Category' : 'No Products Found'}
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p style={{color: 'var(--text-secondary)'}} className="mb-6">
               {category ? 'There are currently no products available in this category.' : 'There are currently no products available.'}
             </p>
             <Link
               to="/categories"
-              className="inline-block bg-[#1fa3b9] hover:bg-[#1a8ca0] text-white px-6 py-3 rounded-lg font-medium transition-colors duration-300"
+              className="btn-primary"
             >
               Browse Categories
             </Link>

@@ -23,7 +23,7 @@ function App() {
     <LanguageContext.Provider value={{ language, setLanguage }}>
       <Router>
         {/* Header Bar */}
-        <div className="bg-[#1fa3b9] text-white text-xs sm:text-sm">
+        <div className="bg-gradient-primary text-white text-xs sm:text-sm shadow-medium">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex items-center justify-between">
 
             {/* Phone */}
