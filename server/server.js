@@ -1,41 +1,45 @@
+// Load environment variables
 import dotenv from "dotenv";
 dotenv.config();
 
+// Import core dependencies
 import express from "express";
 import cors from "cors";
 import connectDB from "./config/db.js";
 
-// Routes
+// Import routes
 import productRoutes from "./routes/productRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import inquiryRoutes from "./routes/inquiryRoutes.js";
 import companyContentRoutes from "./routes/companyContentRoutes.js";
 import certificateRoutes from "./routes/certificateRoutes.js";
 
-// Middleware
+// Import middleware
 import errorHandler from "./middlewares/globalErrorHandler.js";
 import { detectLanguage } from "./middlewares/LangMiddleware.js";
 
-// Script
+// Import scripts
 import { populateSampleContent } from "./scripts/populateCompanyContent.js";
 
+// Connect to database
 connectDB();
 
+// Initialize Express app
 const app = express();
 
-// Middlewares
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "https://trial-deploy-rwrar7wti-saad-sayeds-projects-334da4fd.vercel.app",
-      "https://trial-deploy-coral.vercel.app"
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "x-language"],
-    credentials: true
-  })
-);
+// Configure CORS middleware
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://trial-deploy-rwrar7wti-saad-sayeds-projects-334da4fd.vercel.app",
+    "https://trial-deploy-coral.vercel.app"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "x-language"],
+  credentials: true
+}));
+
+// Apply middleware
 app.use(express.json());
 app.use(detectLanguage);
 
@@ -44,14 +48,14 @@ app.get("/", (req, res) => {
   res.send("Biosynvanta API running");
 });
 
-// Routes
+// API routes
 app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
-app.use("/api/inquiry", inquiryRoutes);  // api/inquiry
+app.use("/api/inquiry", inquiryRoutes);
 app.use("/api/company-content", companyContentRoutes);
 app.use("/api/certificates", certificateRoutes);
 
-// Populate sample content
+// Sample content population route
 app.get("/api/populate-sample-content", async (req, res) => {
   try {
     await populateSampleContent();
@@ -61,11 +65,11 @@ app.get("/api/populate-sample-content", async (req, res) => {
   }
 });
 
-// Error handler
+// Global error handler
 app.use(errorHandler);
 
+// Start server
 const PORT = process.env.PORT || 5051;
-
 app.listen(PORT, () => {
   console.log(`Server Listening on port ${PORT}`);
 });

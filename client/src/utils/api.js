@@ -1,5 +1,7 @@
+// Import Axios for HTTP requests
 import axios from 'axios';
 
+// Create Axios instance with base configuration
 const api = axios.create({
   baseURL: process.env.NODE_ENV === 'production' 
     ? 'https://biosynvanta.onrender.com/api' 
@@ -7,11 +9,12 @@ const api = axios.create({
   timeout: 10000, // 10 second timeout
 });
 
+// Request interceptor to add language and auth headers
 api.interceptors.request.use((config) => {
-  // Get the selected language from local storage (default to 'en')
+  // Get language preference from localStorage (default to 'en')
   const lang = localStorage.getItem('appLanguage') || 'en';
   
-  // Attach it exactly how your backend LangMiddleware expects it
+  // Attach language header for backend localization
   config.headers['x-language'] = lang;
   
   // Add authentication token if available
