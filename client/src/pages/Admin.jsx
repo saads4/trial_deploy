@@ -26,6 +26,8 @@ export default function Admin() {
 
   const [productImagePreview, setProductImagePreview] = useState("");
 
+  const [isEmptyProduct, setIsEmptyProduct] = useState(false);
+
 
 
   const [categoryName, setCategoryName] = useState("");
@@ -156,9 +158,17 @@ export default function Admin() {
 
     e.preventDefault();
 
-    if (!productImageFile) {
+    if (!isEmptyProduct && !productImageFile) {
 
-      alert('Please select an image file');
+      alert('Please select an image file or check the empty product option');
+
+      return;
+
+    }
+
+    if (!productCategory) {
+
+      alert('Please select a category');
 
       return;
 
@@ -170,9 +180,13 @@ export default function Admin() {
 
       const formData = new FormData();
 
-      formData.append('image', productImageFile);
+      if (!isEmptyProduct && productImageFile) {
+        formData.append('image', productImageFile);
+      }
 
-      formData.append('name', productName);
+      if (!isEmptyProduct && productName) {
+        formData.append('name', productName);
+      }
 
       formData.append('category', productCategory);
 
@@ -191,6 +205,8 @@ export default function Admin() {
       setProductImageFile(null);
 
       setProductImagePreview("");
+
+      setIsEmptyProduct(false);
 
       fetchProducts();
 
@@ -543,7 +559,20 @@ export default function Admin() {
 
               onChange={(e) => setProductName(e.target.value)}
 
-              className="rounded-lg transition-colors duration-200" style={{border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-white)'}} required />
+              className="rounded-lg transition-colors duration-200" style={{border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-white)'}} disabled={isEmptyProduct} />
+
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                id="emptyProduct"
+                checked={isEmptyProduct}
+                onChange={(e) => setIsEmptyProduct(e.target.checked)}
+                className="rounded"
+              />
+              <label htmlFor="emptyProduct" className="text-sm" style={{color: 'var(--text-primary)'}}>
+                Create empty product (white tile)
+              </label>
+            </div>
 
             <select value={productCategory}
 
@@ -569,7 +598,7 @@ export default function Admin() {
 
                 onChange={handleProductImageChange}
 
-                className="border p-2 rounded w-full" required={true} />
+                className="border p-2 rounded w-full" disabled={isEmptyProduct} />
 
               {productImagePreview && (
 

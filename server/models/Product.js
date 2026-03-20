@@ -2,13 +2,19 @@ import mongoose from 'mongoose';
 import { multiLangString } from '../utils/SchemaHelper.js';
 
 const productSchema = new mongoose.Schema({
-  name: multiLangString,
+  name: {
+    en: { type: String, default: "" },
+    ar: { type: String, default: "" },
+    fr: { type: String, default: "" },
+    es: { type: String, default: "" },
+    ru: { type: String, default: "" }
+  },
 
   description: multiLangString,
 
   imageUrl: {
     type: String,
-    required: [true, 'Product image is required'],
+    required: false,
   },
   category: {
     type: String,

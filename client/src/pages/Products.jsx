@@ -10,7 +10,6 @@ export default function Products() {
   const category = searchParams.get("category");
 
   useEffect(() => {
-    // Scroll to top when component mounts
     window.scrollTo(0, 0);
     
     const fetchData = async () => {
@@ -36,13 +35,8 @@ export default function Products() {
         }
 
         if (category) {
-          try {
-            const res = await api.get(`/products?category=${category}`);
-            setProducts(res.data || []);
-          } catch (error) {
-            console.error('Error fetching category products:', error);
-            setProducts([]);
-          }
+          const res = await api.get(`/products?category=${category}`);
+          setProducts(res.data || []);
         } else {
           const res = await api.get("/products");
           setProducts(res.data);
@@ -107,25 +101,95 @@ export default function Products() {
         
         {products.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products.map((product) => (
-              <div key={product._id} className="card card-accent hover:shadow-lg transition-all duration-300">
-                <div className="h-48" style={{backgroundColor: 'var(--bg-light)'}}>
-                  <img
-                    src={product.imageUrl || product.image || "https://images.unsplash.com/photo-1579684451722-219f54b73314?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      if (product.image && !product.image.startsWith('http')) {
-                        e.target.src = `http://localhost:5051${product.image}`;
-                      }
-                    }}
-                  />
+            {products.map((product, index) => {
+              const isEmptyProduct = (!product.imageUrl || product.imageUrl === '' || product.imageUrl === null) && 
+                                   (!product.name || product.name === '' || product.name === null);
+              
+              // Find first and last empty tile indices
+              const emptyTileIndices = products.map((p, i) => 
+                (!p.imageUrl || p.imageUrl === '' || p.imageUrl === null) && 
+                (!p.name || p.name === '' || p.name === null) ? i : -1
+              ).filter(i => i !== -1);
+              
+              const hasEmptyTiles = emptyTileIndices.length > 0;
+              const firstEmptyIndex = hasEmptyTiles ? Math.min(...emptyTileIndices) : -1;
+              const lastEmptyIndex = hasEmptyTiles ? Math.max(...emptyTileIndices) : -1;
+              
+              let sectionColor = '';
+              let borderColor = '';
+              let titleColor = '';
+              let isWhiteSpace = false;
+              
+              if (isEmptyProduct) {
+                isWhiteSpace = true;
+                // Empty tiles get no special styling
+              } else if (hasEmptyTiles) {
+                // Products before first empty tile
+                if (index < firstEmptyIndex) {
+                  sectionColor = '#fef3c7'; // Light amber background
+                  borderColor = '#f59e0b'; // Amber border
+                  titleColor = '#92400e'; // Dark amber text
+                } 
+                // Products after last empty tile
+                else if (index > lastEmptyIndex) {
+                  sectionColor = '#dbeafe'; // Light blue background
+                  borderColor = '#3b82f6'; // Blue border
+                  titleColor = '#1e3a8a'; // Dark blue text
+                } 
+                // Products between empty tiles get normal styling
+                else {
+                  sectionColor = '';
+                  borderColor = '';
+                  titleColor = 'var(--text-primary)';
+                }
+              } else {
+                // No empty tiles - normal styling
+                sectionColor = '';
+                borderColor = '';
+                titleColor = 'var(--text-primary)';
+              }
+              
+              return (
+                <div 
+                  key={product._id} 
+                  className={`card hover:shadow-lg transition-all duration-300 ${isWhiteSpace ? 'hidden md:block' : ''}`}
+                  style={{
+                    backgroundColor: sectionColor || 'var(--surface-white)',
+                    border: borderColor ? `2px solid ${borderColor}` : ''
+                  }}
+                >
+                  <div className="h-48" style={{backgroundColor: product.imageUrl ? 'var(--bg-light)' : sectionColor || 'var(--bg-light)'}}>
+                    {product.imageUrl ? (
+                      <img
+                        src={product.imageUrl || product.image || "https://images.unsplash.com/photo-1579684451722-219f54b73314?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"}
+                        alt={product.name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          if (product.image && !product.image.startsWith('http')) {
+                            e.target.src = `http://localhost:5051${product.image}`;
+                          }
+                        }}
+                      />
+                    ) : (
+                      isWhiteSpace ? (
+                        <div className="w-full h-full" style={{backgroundColor: '#ffffff'}}></div>
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center" style={{backgroundColor: sectionColor || '#ffffff'}}>
+                          <span style={{color: titleColor || '#d1d5db'}} className="text-sm">Empty Product</span>
+                        </div>
+                      )
+                    )}
+                  </div>
+                  <div className="p-6">
+                    {product.name && (
+                      <h3 className="text-xl font-semibold mb-2" style={{color: titleColor}}>
+                        {product.name}
+                      </h3>
+                    )}
+                  </div>
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-2" style={{color: 'var(--text-primary)'}}>{product.name}</h3>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         ) : (
           <div className="text-center py-16 rounded-xl" style={{backgroundColor: 'var(--bg-light)'}}>

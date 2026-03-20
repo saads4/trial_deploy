@@ -39,15 +39,23 @@ export const createProduct = asyncHandler(async (req, res) => {
     imageUrl = uploadResult.url;
   }
 
-  // Translate content for internationalization
-  const translatedName = await translateContent(req.body.name);
-  const translatedDescription = await translateContent(req.body.description);
+  // Only translate content if name is provided
+  let translatedName = {};
+  let translatedDescription = {};
+  
+  if (req.body.name) {
+    translatedName = await translateContent(req.body.name);
+  }
+  
+  if (req.body.description) {
+    translatedDescription = await translateContent(req.body.description);
+  }
 
   const productData = {
     name: translatedName,
     description: translatedDescription,
     category: req.body.category,
-    imageUrl: imageUrl
+    imageUrl: imageUrl || null
   };
 
   const product = await Product.create(productData);
