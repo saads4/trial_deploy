@@ -163,7 +163,7 @@ export default function Products() {
                       <img
                         src={product.imageUrl || product.image || "https://images.unsplash.com/photo-1579684451722-219f54b73314?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"}
                         alt={product.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain"
                         onError={(e) => {
                           if (product.image && !product.image.startsWith('http')) {
                             e.target.src = `http://localhost:5051${product.image}`;
