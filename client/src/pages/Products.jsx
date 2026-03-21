@@ -9,38 +9,29 @@ export default function Products() {
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category");
 
+  // Fetch products and category details on component mount and category change
   useEffect(() => {
-    window.scrollTo(0, 0);
-    
     const fetchData = async () => {
       setLoading(true);
       try {
+        // Fetch category details if category parameter exists
         if (category) {
           try {
             const categoryRes = await api.get(`/categories/${category}`);
             setCategoryDetails(categoryRes.data);
           } catch (err) {
-            try {
-              const allCategoriesRes = await api.get('/categories');
-              const foundCategory = allCategoriesRes.data.find(cat => 
-                cat.slug === category || cat._id === category
-              );
-              if (foundCategory) {
-                setCategoryDetails(foundCategory);
-              }
-            } catch (slugErr) {
-              console.error('Error finding category by slug:', slugErr);
-            }
+            // Fallback: try finding category by slug in all categories
+            const allCategoriesRes = await api.get('/categories');
+            const foundCategory = allCategoriesRes.data.find(cat => 
+              cat.slug === category || cat._id === category
+            );
+            if (foundCategory) setCategoryDetails(foundCategory);
           }
         }
 
-        if (category) {
-          const res = await api.get(`/products?category=${category}`);
-          setProducts(res.data || []);
-        } else {
-          const res = await api.get("/products");
-          setProducts(res.data);
-        }
+        // Fetch products (filtered by category if specified)
+        const res = await api.get(category ? `/products?category=${category}` : "/products");
+        setProducts(res.data || []);
       } catch (error) {
         console.error('Error fetching data:', error);
         setProducts([]);
@@ -48,9 +39,12 @@ export default function Products() {
         setLoading(false);
       }
     };
+    
+    window.scrollTo(0, 0);
     fetchData();
   }, [category]);
 
+  // Loading state
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-16">
@@ -62,6 +56,7 @@ export default function Products() {
     );
   }
 
+  // No products found state (only for main products page, not category pages)
   if (products.length === 0 && !category) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-16">
@@ -73,6 +68,7 @@ export default function Products() {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-16 min-h-screen" style={{backgroundColor: 'var(--bg-light)'}}>
+      {/* Category header section */}
       {category && categoryDetails && (
         <div className="mb-12">
           <Link
@@ -94,6 +90,7 @@ export default function Products() {
         </div>
       )}
 
+      {/* Products section */}
       <div>
         <h2 className="text-3xl font-bold text-gradient mb-8">
           {category && categoryDetails ? `Products in ${categoryDetails.name}` : 'Our Products'}
@@ -102,87 +99,44 @@ export default function Products() {
         {products.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {products.map((product, index) => {
+              // Check if product is empty (no image and no name)
               const isEmptyProduct = (!product.imageUrl || product.imageUrl === '' || product.imageUrl === null) && 
                                    (!product.name || product.name === '' || product.name === null);
               
-              // Find first and last empty tile indices
-              const emptyTileIndices = products.map((p, i) => 
-                (!p.imageUrl || p.imageUrl === '' || p.imageUrl === null) && 
-                (!p.name || p.name === '' || p.name === null) ? i : -1
-              ).filter(i => i !== -1);
-              
-              const hasEmptyTiles = emptyTileIndices.length > 0;
-              const firstEmptyIndex = hasEmptyTiles ? Math.min(...emptyTileIndices) : -1;
-              const lastEmptyIndex = hasEmptyTiles ? Math.max(...emptyTileIndices) : -1;
-              
-              let sectionColor = '';
-              let borderColor = '';
-              let titleColor = '';
-              let isWhiteSpace = false;
-              
+              // Render empty tile for spacing (hidden on mobile)
               if (isEmptyProduct) {
-                isWhiteSpace = true;
-                // Empty tiles get no special styling
-              } else if (hasEmptyTiles) {
-                // Products before first empty tile
-                if (index < firstEmptyIndex) {
-                  sectionColor = '#fef3c7'; // Light amber background
-                  borderColor = '#f59e0b'; // Amber border
-                  titleColor = '#92400e'; // Dark amber text
-                } 
-                // Products after last empty tile
-                else if (index > lastEmptyIndex) {
-                  sectionColor = '#dbeafe'; // Light blue background
-                  borderColor = '#3b82f6'; // Blue border
-                  titleColor = '#1e3a8a'; // Dark blue text
-                } 
-                // Products between empty tiles get normal styling
-                else {
-                  sectionColor = '';
-                  borderColor = '';
-                  titleColor = 'var(--text-primary)';
-                }
-              } else {
-                // No empty tiles - normal styling
-                sectionColor = '';
-                borderColor = '';
-                titleColor = 'var(--text-primary)';
+                return (
+                  <div key={product._id} className="hidden md:block">
+                    <div className="h-48" style={{backgroundColor: '#ffffff'}}></div>
+                  </div>
+                );
               }
               
+              // Render product card
               return (
-                <div 
-                  key={product._id} 
-                  className={`card hover:shadow-lg transition-all duration-300 ${isWhiteSpace ? 'hidden md:block' : ''}`}
-                  style={{
-                    backgroundColor: sectionColor || 'var(--surface-white)',
-                    border: borderColor ? `2px solid ${borderColor}` : ''
-                  }}
-                >
-                  <div className="h-48" style={{backgroundColor: product.imageUrl ? 'var(--bg-light)' : sectionColor || 'var(--bg-light)'}}>
+                <div key={product._id} className="card hover:shadow-lg transition-all duration-300">
+                  <div className="h-48" style={{backgroundColor: 'var(--bg-light)'}}>
                     {product.imageUrl ? (
                       <img
                         src={product.imageUrl || product.image || "https://images.unsplash.com/photo-1579684451722-219f54b73314?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"}
                         alt={product.name}
                         className="w-full h-full object-contain"
                         onError={(e) => {
+                          // Fallback to local server image if external image fails
                           if (product.image && !product.image.startsWith('http')) {
                             e.target.src = `http://localhost:5051${product.image}`;
                           }
                         }}
                       />
                     ) : (
-                      isWhiteSpace ? (
-                        <div className="w-full h-full" style={{backgroundColor: '#ffffff'}}></div>
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center" style={{backgroundColor: sectionColor || '#ffffff'}}>
-                          <span style={{color: titleColor || '#d1d5db'}} className="text-sm">Empty Product</span>
-                        </div>
-                      )
+                      <div className="w-full h-full flex items-center justify-center" style={{backgroundColor: 'var(--bg-light)'}}>
+                        <span style={{color: 'var(--text-secondary)'}} className="text-sm">No Image</span>
+                      </div>
                     )}
                   </div>
                   <div className="p-6">
                     {product.name && (
-                      <h3 className="text-xl font-semibold mb-2" style={{color: titleColor}}>
+                      <h3 className="text-xl font-semibold mb-2" style={{color: 'var(--text-primary)'}}>
                         {product.name}
                       </h3>
                     )}
@@ -192,6 +146,7 @@ export default function Products() {
             })}
           </div>
         ) : (
+          // No products found state
           <div className="text-center py-16 rounded-xl" style={{backgroundColor: 'var(--bg-light)'}}>
             <div style={{color: 'var(--text-secondary)'}} className="mb-4">
               <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
