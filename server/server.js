@@ -29,7 +29,6 @@ connectDB();
 const app = express();
 
 // Configure CORS middleware
-import cors from "cors";
 
 app.use(cors({
   origin: ["https://trial-deploy-lilac.vercel.app"],
