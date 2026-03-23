@@ -28,15 +28,27 @@ connectDB();
 // Initialize Express app
 const app = express();
 
-// Configure CORS middleware
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://trial-deploy-lilac.vercel.app"
+];
 
 app.use(cors({
-  origin: ["https://trial-deploy-lilac.vercel.app"],
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS blocked"));
+    }
+  },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "x-language"],
   credentials: true
 }));
 
+// 👇 VERY IMPORTANT (fixes preflight)
+app.options("*", cors());
 // Apply middleware
 app.use(express.json());
 app.use(detectLanguage);
