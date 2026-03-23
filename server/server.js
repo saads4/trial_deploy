@@ -29,12 +29,10 @@ connectDB();
 const app = express();
 
 // Configure CORS middleware
+import cors from "cors";
+
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://trial-deploy-rwrar7wti-saad-sayeds-projects-334da4fd.vercel.app",
-    "https://trial-deploy-coral.vercel.app"
-  ],
+  origin: ["https://trial-deploy-lilac.vercel.app"],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "x-language"],
   credentials: true
