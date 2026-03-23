@@ -1,0 +1,705 @@
+import { useState, useEffect } from "react";
+import api from "../utils/api";
+
+export default function Admin() {
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [inquiries, setInquiries] = useState([]);
+  const [certificates, setCertificates] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // Product form state
+  const [productName, setProductName] = useState("");
+  const [productCategory, setProductCategory] = useState("");
+  const [productSubcategory, setProductSubcategory] = useState("");
+  const [productImageFile, setProductImageFile] = useState(null);
+  const [productImagePreview, setProductImagePreview] = useState("");
+  const [isEmptyProduct, setIsEmptyProduct] = useState(false);
+
+  // Category form state
+  const [categoryName, setCategoryName] = useState("");
+  const [categorySlug, setCategorySlug] = useState("");
+  const [categoryDescription, setCategoryDescription] = useState("");
+  const [categoryImageFile, setCategoryImageFile] = useState(null);
+  const [categoryImagePreview, setCategoryImagePreview] = useState("");
+  const [categorySubcategories, setCategorySubcategories] = useState([]);
+
+  // Certificate form state
+  const [certificateTitle, setCertificateTitle] = useState("");
+  const [certificateDescription, setCertificateDescription] = useState("");
+  const [certificateIssuedBy, setCertificateIssuedBy] = useState("");
+  const [certificateIssueDate, setCertificateIssueDate] = useState("");
+  const [certificateExpiryDate, setCertificateExpiryDate] = useState("");
+  const [certificateImageFile, setCertificateImageFile] = useState(null);
+  const [certificateImagePreview, setCertificateImagePreview] = useState("");
+
+  useEffect(() => {
+    fetchCategories();
+    fetchProducts();
+    fetchInquiries();
+    fetchCertificates();
+  }, []);
+
+  const formatDate = (date) => {
+    if (!date) return "";
+    return new Date(date).toLocaleString();
+  };
+
+  const fetchCategories = async () => {
+    try {
+      const res = await api.get("/categories");
+      setCategories(res.data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  const fetchProducts = async () => {
+    try {
+      const res = await api.get("/products");
+      setProducts(res.data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  const fetchInquiries = async () => {
+    try {
+      const res = await api.get("/inquiry");
+      setInquiries(res.data.data || []);
+    } catch (error) {
+      console.error("Error fetching inquiries:", error);
+    }
+  };
+
+  const fetchCertificates = async () => {
+    try {
+      const res = await api.get("/certificates/admin/all");
+      setCertificates(res.data.data || []);
+    } catch (error) {
+      console.error("Error fetching certificates:", error);
+    }
+  };
+
+  // ─── Subcategory helpers for category form ───────────────────────────────
+  const addSubcategoryField = () => {
+    setCategorySubcategories(prev => [...prev, { name: "", slug: "" }]);
+  };
+
+  const removeSubcategoryField = (index) => {
+    setCategorySubcategories(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const updateSubcategoryField = (index, field, value) => {
+    setCategorySubcategories(prev =>
+      prev.map((item, i) => i === index ? { ...item, [field]: value } : item)
+    );
+  };
+
+  // Auto-generate slug from name for subcategory rows
+  const handleSubcategoryNameChange = (index, value) => {
+    const slug = value.toLowerCase().trim().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+    setCategorySubcategories(prev =>
+      prev.map((item, i) =>
+        i === index ? { name: value, slug: item.slug || slug } : item
+      )
+    );
+  };
+
+  // Get subcategories for the currently selected product category
+  const getSubcategoriesForSelectedCategory = () => {
+    if (!productCategory) return [];
+    const cat = categories.find(c => c.slug === productCategory);
+    return cat?.subcategories || [];
+  };
+
+  // ─── Form handlers ───────────────────────────────────────────────────────
+  const handleAddProduct = async (e) => {
+    e.preventDefault();
+    if (!isEmptyProduct && !productImageFile) {
+      alert('Please select an image file or check the empty product option');
+      return;
+    }
+    if (!productCategory) {
+      alert('Please select a category');
+      return;
+    }
+
+    const availableSubcategories = getSubcategoriesForSelectedCategory();
+    if (availableSubcategories.length > 0 && !productSubcategory) {
+      alert('Please select a subcategory for this category');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      if (!isEmptyProduct && productImageFile) {
+        formData.append('image', productImageFile);
+      }
+      if (!isEmptyProduct && productName) {
+        formData.append('name', productName);
+      }
+      formData.append('category', productCategory);
+      if (productSubcategory) {
+        formData.append('subcategory', productSubcategory);
+      }
+      await api.post("/products", formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      alert("Product Added Successfully");
+      setProductName("");
+      setProductCategory("");
+      setProductSubcategory("");
+      setProductImageFile(null);
+      setProductImagePreview("");
+      setIsEmptyProduct(false);
+      fetchProducts();
+    } catch (error) {
+      console.error("Error adding product:", error);
+      alert("Error adding product.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAddCategory = async (e) => {
+    e.preventDefault();
+    if (!categoryImageFile) {
+      alert('Please select an image file');
+      return;
+    }
+    // Validate subcategory rows: if any are partially filled, warn
+    const partialRows = categorySubcategories.filter(s => (s.name && !s.slug) || (!s.name && s.slug));
+    if (partialRows.length > 0) {
+      alert('Each subcategory must have both a name and a slug.');
+      return;
+    }
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append('image', categoryImageFile);
+      formData.append('name', categoryName);
+      formData.append('slug', categorySlug);
+      formData.append('description', categoryDescription);
+      // Only include non-empty subcategory rows
+      const validSubs = categorySubcategories.filter(s => s.name && s.slug);
+      formData.append('subcategories', JSON.stringify(validSubs));
+      await api.post("/categories", formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      alert("Category Added Successfully");
+      setCategoryName("");
+      setCategorySlug("");
+      setCategoryDescription("");
+      setCategoryImageFile(null);
+      setCategoryImagePreview("");
+      setCategorySubcategories([]);
+      fetchCategories();
+    } catch (error) {
+      console.error("Error adding category:", error);
+      alert("Error adding category.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteProduct = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this product?")) return;
+    try {
+      await api.delete(`/products/${id}`);
+      fetchProducts();
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
+
+  const handleDeleteCategory = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this category?")) return;
+    try {
+      await api.delete(`/categories/${id}`);
+      fetchCategories();
+    } catch (error) {
+      console.error("Error deleting category:", error);
+    }
+  };
+
+  const handleDeleteInquiry = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this inquiry?")) return;
+    try {
+      await api.delete(`/inquiry/${id}`);
+      fetchInquiries();
+    } catch (error) {
+      console.error("Error deleting inquiry:", error);
+    }
+  };
+
+  const handleAddCertificate = async (e) => {
+    e.preventDefault();
+    if (!certificateImageFile) {
+      alert('Please select an image file');
+      return;
+    }
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append('image', certificateImageFile);
+      formData.append('title', certificateTitle);
+      formData.append('description', certificateDescription);
+      formData.append('issuedBy', certificateIssuedBy);
+      formData.append('issueDate', certificateIssueDate);
+      formData.append('expiryDate', certificateExpiryDate);
+      await api.post("/certificates", formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      alert("Certificate Added Successfully");
+      setCertificateTitle("");
+      setCertificateDescription("");
+      setCertificateIssuedBy("");
+      setCertificateIssueDate("");
+      setCertificateExpiryDate("");
+      setCertificateImageFile(null);
+      setCertificateImagePreview("");
+      fetchCertificates();
+    } catch (error) {
+      console.error("Error adding certificate:", error);
+      alert("Error adding certificate.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteCertificate = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this certificate?")) return;
+    try {
+      await api.delete(`/certificates/${id}`);
+      fetchCertificates();
+    } catch (error) {
+      console.error("Error deleting certificate:", error);
+      alert("Error deleting certificate. Please try again.");
+    }
+  };
+
+  const handleProductImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png') {
+        setProductImageFile(file);
+        const reader = new FileReader();
+        reader.onloadend = () => setProductImagePreview(reader.result);
+        reader.readAsDataURL(file);
+      } else {
+        alert('Please select a valid image file (JPEG, JPG, or PNG)');
+        e.target.value = '';
+      }
+    }
+  };
+
+  const handleCategoryImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png') {
+        setCategoryImageFile(file);
+        const reader = new FileReader();
+        reader.onloadend = () => setCategoryImagePreview(reader.result);
+        reader.readAsDataURL(file);
+      } else {
+        alert('Please select a valid image file (JPEG, JPG, or PNG)');
+        e.target.value = '';
+      }
+    }
+  };
+
+  const handleCertificateImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png') {
+        setCertificateImageFile(file);
+        const reader = new FileReader();
+        reader.onloadend = () => setCertificateImagePreview(reader.result);
+        reader.readAsDataURL(file);
+      } else {
+        alert('Please select a valid image file (JPEG, JPG, or PNG)');
+        e.target.value = '';
+      }
+    }
+  };
+
+  const availableSubcategories = getSubcategoriesForSelectedCategory();
+
+  return (
+    <div className="max-w-7xl mx-auto py-16 px-6" style={{backgroundColor: 'var(--bg-light)'}}>
+      <h1 className="text-3xl font-bold text-blue-teal mb-8">Admin Panel</h1>
+      <div className="grid md:grid-cols-2 gap-8">
+
+        {/* ── Add Product ── */}
+        <div className="card p-6 shadow-medium">
+          <h2 className="text-xl font-semibold mb-4" style={{color: 'var(--text-primary)'}}>Add Product</h2>
+          <form onSubmit={handleAddProduct} className="flex flex-col gap-4">
+            <input type="text" placeholder="Product Name" value={productName}
+              onChange={(e) => setProductName(e.target.value)}
+              className="rounded-lg transition-colors duration-200" style={{border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-white)'}} disabled={isEmptyProduct} />
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                id="emptyProduct"
+                checked={isEmptyProduct}
+                onChange={(e) => setIsEmptyProduct(e.target.checked)}
+                className="rounded"
+              />
+              <label htmlFor="emptyProduct" className="text-sm" style={{color: 'var(--text-primary)'}}>
+                Create empty product (white tile)
+              </label>
+            </div>
+
+            {/* Category dropdown */}
+            <select value={productCategory}
+              onChange={(e) => {
+                setProductCategory(e.target.value);
+                setProductSubcategory("");
+              }}
+              className="rounded-lg transition-colors duration-200" style={{border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-white)'}} required>
+              <option value="">Select Category</option>
+              {categories.map((cat) => (
+                <option key={cat._id} value={cat.slug}>{cat.name}</option>
+              ))}
+            </select>
+
+            {/* Subcategory dropdown — shown only when selected category has subcategories */}
+            {productCategory && availableSubcategories.length > 0 && (
+              <select value={productSubcategory}
+                onChange={(e) => setProductSubcategory(e.target.value)}
+                className="rounded-lg transition-colors duration-200"
+                style={{border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-white)'}}
+                required>
+                <option value="">Select Subcategory</option>
+                {availableSubcategories.map((sub, idx) => (
+                  <option key={idx} value={sub.slug}>{sub.name}</option>
+                ))}
+              </select>
+            )}
+
+            <div className="space-y-2">
+              <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-primary)'}}>Product Image</label>
+              <input type="file" accept="image/jpeg,image/jpg,image/png"
+                onChange={handleProductImageChange}
+                className="border p-2 rounded w-full" disabled={isEmptyProduct} />
+              {productImagePreview && (
+                <img src={productImagePreview} alt="Product preview" className="h-20 w-20 object-cover rounded mt-2" />
+              )}
+            </div>
+            <button type="submit" disabled={loading} className="btn-primary">
+              {loading ? "Adding..." : "Add Product"}
+            </button>
+          </form>
+        </div>
+
+        {/* ── Add Category ── */}
+        <div className="card p-6 shadow-medium">
+          <h2 className="text-xl font-semibold mb-4" style={{color: 'var(--text-primary)'}}>Add Category</h2>
+          <form onSubmit={handleAddCategory} className="flex flex-col gap-4">
+            <input type="text" placeholder="Category Name"
+              value={categoryName}
+              onChange={(e) => setCategoryName(e.target.value)}
+              className="rounded-lg transition-colors duration-200" style={{border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-white)'}} required />
+            <input type="text" placeholder="Category Slug"
+              value={categorySlug}
+              onChange={(e) => setCategorySlug(e.target.value)}
+              className="rounded-lg transition-colors duration-200" style={{border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-white)'}} required />
+            <textarea placeholder="Description"
+              value={categoryDescription}
+              onChange={(e) => setCategoryDescription(e.target.value)}
+              className="rounded-lg transition-colors duration-200" style={{border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-white)'}} rows="3" />
+
+            {/* ── Subcategories section ── */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-sm font-medium" style={{color: 'var(--text-primary)'}}>
+                  Subcategories (optional)
+                </label>
+                <button
+                  type="button"
+                  onClick={addSubcategoryField}
+                  className="text-sm px-3 py-1 rounded-lg"
+                  style={{backgroundColor: 'var(--color-teal, #0d9488)', color: '#fff', border: 'none', cursor: 'pointer'}}>
+                  + Add Subcategory
+                </button>
+              </div>
+              {categorySubcategories.length > 0 && (
+                <div className="flex flex-col gap-2">
+                  {categorySubcategories.map((sub, index) => (
+                    <div key={index} className="flex gap-2 items-center">
+                      <input
+                        type="text"
+                        placeholder="Subcategory Name"
+                        value={sub.name}
+                        onChange={(e) => handleSubcategoryNameChange(index, e.target.value)}
+                        className="flex-1 rounded-lg transition-colors duration-200"
+                        style={{border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-white)', padding: '6px 10px'}}
+                      />
+                      <input
+                        type="text"
+                        placeholder="Slug"
+                        value={sub.slug}
+                        onChange={(e) => updateSubcategoryField(index, 'slug', e.target.value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''))}
+                        className="flex-1 rounded-lg transition-colors duration-200"
+                        style={{border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-white)', padding: '6px 10px'}}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeSubcategoryField(index)}
+                        className="text-red-500 hover:text-red-700 text-sm font-bold px-2"
+                        style={{cursor: 'pointer'}}>
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-primary)'}}>Category Image</label>
+              <input type="file" accept="image/jpeg,image/jpg,image/png"
+                onChange={handleCategoryImageChange}
+                className="border p-2 rounded w-full" />
+              {categoryImagePreview && (
+                <img src={categoryImagePreview} alt="Category preview" className="h-20 w-20 object-cover rounded mt-2" />
+              )}
+            </div>
+            <button type="submit" disabled={loading} className="btn-primary">
+              {loading ? "Adding..." : "Add Category"}
+            </button>
+          </form>
+        </div>
+      </div>
+
+      {/* ── Add Certificate ── */}
+      <div className="mt-12">
+        <div className="card p-6 shadow-medium">
+          <h2 className="text-xl font-semibold mb-4" style={{color: 'var(--text-primary)'}}>Add Certificate</h2>
+          <form onSubmit={handleAddCertificate} className="flex flex-col gap-4">
+            <input type="text" placeholder="Certificate Title"
+              value={certificateTitle}
+              onChange={(e) => setCertificateTitle(e.target.value)}
+              className="rounded-lg transition-colors duration-200" style={{border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-white)'}} required />
+            <textarea placeholder="Certificate Description"
+              value={certificateDescription}
+              onChange={(e) => setCertificateDescription(e.target.value)}
+              className="rounded-lg transition-colors duration-200" style={{border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-white)'}} rows="3" />
+            <input type="text" placeholder="Issued By (Optional)"
+              value={certificateIssuedBy}
+              onChange={(e) => setCertificateIssuedBy(e.target.value)}
+              className="rounded-lg transition-colors duration-200" style={{border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-white)'}} />
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-1" style={{color: 'var(--text-primary)'}}>Issue Date</label>
+                <input type="date" value={certificateIssueDate}
+                  onChange={(e) => setCertificateIssueDate(e.target.value)}
+                  className="border p-2 rounded w-full" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1" style={{color: 'var(--text-primary)'}}>Expiry Date (Optional)</label>
+                <input type="date" value={certificateExpiryDate}
+                  onChange={(e) => setCertificateExpiryDate(e.target.value)}
+                  className="border p-2 rounded w-full" />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-primary)'}}>Certificate Image</label>
+              <input type="file" accept="image/jpeg,image/jpg,image/png"
+                onChange={handleCertificateImageChange}
+                className="border p-2 rounded w-full" required />
+              {certificateImagePreview && (
+                <img src={certificateImagePreview} alt="Certificate preview" className="h-20 w-20 object-cover rounded mt-2" />
+              )}
+            </div>
+            <button type="submit" disabled={loading} className="btn-primary">
+              {loading ? "Adding..." : "Add Certificate"}
+            </button>
+          </form>
+        </div>
+      </div>
+
+      {/* ── Products table ── */}
+      <div className="mt-12">
+        <h2 className="text-2xl font-semibold mb-4" style={{color: 'var(--text-primary)'}}>Products ({products.length})</h2>
+        <div className="card shadow-medium overflow-x-auto">
+          <table className="w-full">
+            <thead style={{backgroundColor: 'var(--bg-light)'}}>
+              <tr>
+                <th className="px-6 py-3 text-left" style={{color: 'var(--text-primary)'}}>Product</th>
+                <th className="px-6 py-3 text-left">Category</th>
+                <th className="px-6 py-3 text-left">Subcategory</th>
+                <th className="px-6 py-3 text-left">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map((product) => (
+                <tr key={product._id} className="border-t">
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-3">
+                      <img src={product.imageUrl || ''} alt={product.name}
+                        className="h-10 w-10 object-cover rounded"
+                        onError={(e) => { e.target.style.display = 'none'; }} />
+                      <div>
+                        <div className="font-medium" style={{color: 'var(--text-primary)'}}>{product.name}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">{product.category}</td>
+                  <td className="px-6 py-4">{product.subcategory || <span className="text-gray-400 text-sm">—</span>}</td>
+                  <td className="px-6 py-4">
+                    <button onClick={() => handleDeleteProduct(product._id)}
+                      className="text-red-600 hover:text-red-900">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* ── Categories table ── */}
+      <div className="mt-12">
+        <h2 className="text-2xl font-semibold mb-4">Categories ({categories.length})</h2>
+        <div className="card shadow-medium overflow-x-auto">
+          <table className="w-full">
+            <thead style={{backgroundColor: 'var(--bg-light)'}}>
+              <tr>
+                <th className="px-6 py-3 text-left">Category</th>
+                <th className="px-6 py-3 text-left">Slug</th>
+                <th className="px-6 py-3 text-left">Subcategories</th>
+                <th className="px-6 py-3 text-left">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {categories.map((category) => (
+                <tr key={category._id} className="border-t">
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-3">
+                      {category.imageURL && (
+                        <img src={category.imageURL} alt={category.name}
+                          className="h-10 w-10 object-cover rounded"
+                          onError={(e) => { e.target.style.display = 'none'; }} />
+                      )}
+                      <div className="font-medium" style={{color: 'var(--text-primary)'}}>{category.name}</div>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">{category.slug}</td>
+                  <td className="px-6 py-4">
+                    {category.subcategories && category.subcategories.length > 0 ? (
+                      <div className="flex flex-wrap gap-1">
+                        {category.subcategories.map((sub, idx) => (
+                          <span key={idx} className="text-xs px-2 py-1 rounded-full"
+                            style={{backgroundColor: 'var(--bg-light)', border: '1px solid var(--border-color)', color: 'var(--text-primary)'}}>
+                            {sub.name}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <span className="text-gray-400 text-sm">—</span>
+                    )}
+                  </td>
+                  <td className="px-6 py-4">
+                    <button onClick={() => handleDeleteCategory(category._id)}
+                      className="text-red-600 hover:text-red-900">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* ── Inquiries table ── */}
+      <div className="mt-12">
+        <h2 className="text-2xl font-semibold mb-4">Inquiries ({inquiries.length})</h2>
+        <div className="card shadow-medium overflow-x-auto">
+          <table className="w-full">
+            <thead style={{backgroundColor: 'var(--bg-light)'}}>
+              <tr>
+                <th className="px-6 py-3 text-left">Name</th>
+                <th className="px-6 py-3 text-left">Email</th>
+                <th className="px-6 py-3 text-left">Phone</th>
+                <th className="px-6 py-3 text-left">Subject</th>
+                <th className="px-6 py-3 text-left">Message</th>
+                <th className="px-6 py-3 text-left">Date</th>
+                <th className="px-6 py-3 text-left">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {inquiries.map((inq) => (
+                <tr key={inq._id} className="border-t">
+                  <td className="px-6 py-4">{inq.name}</td>
+                  <td className="px-6 py-4">{inq.email}</td>
+                  <td className="px-6 py-4">{inq.phone || '-'}</td>
+                  <td className="px-6 py-4">{inq.subject}</td>
+                  <td className="px-6 py-4">{inq.message?.substring(0, 80)}...</td>
+                  <td className="px-6 py-4">{formatDate(inq.createdAt)}</td>
+                  <td className="px-6 py-4">
+                    <button onClick={() => handleDeleteInquiry(inq._id)}
+                      className="text-red-600 hover:text-red-900">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* ── Certificates table ── */}
+      <div className="mt-12">
+        <h2 className="text-2xl font-semibold mb-4">Certificates ({certificates.length})</h2>
+        <div className="card shadow-medium overflow-x-auto">
+          <table className="w-full">
+            <thead style={{backgroundColor: 'var(--bg-light)'}}>
+              <tr>
+                <th className="px-6 py-3 text-left">Certificate</th>
+                <th className="px-6 py-3 text-left">Title</th>
+                <th className="px-6 py-3 text-left">Issued By</th>
+                <th className="px-6 py-3 text-left">Issue Date</th>
+                <th className="px-6 py-3 text-left">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {certificates.map((cert) => (
+                <tr key={cert._id} className="border-t">
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-3">
+                      <img src={cert.imageUrl || ''} alt={cert.title}
+                        className="h-10 w-10 object-cover rounded"
+                        onError={(e) => { e.target.style.display = 'none'; }} />
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div>
+                      <div className="font-medium" style={{color: 'var(--text-primary)'}}>{cert.title}</div>
+                      <div className="text-sm text-gray-500">
+                        {cert.description?.substring(0, 50)}...
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">{cert.issuedBy || '-'}</td>
+                  <td className="px-6 py-4">{formatDate(cert.issueDate)}</td>
+                  <td className="px-6 py-4">
+                    <button onClick={() => handleDeleteCertificate(cert._id)}
+                      className="text-red-600 hover:text-red-900">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
