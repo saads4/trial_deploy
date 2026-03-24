@@ -29,34 +29,40 @@ connectDB();
 const app = express();
 
 
+// ✅ CORS CONFIG (FIXED)
 const allowedOrigins = [
   "http://localhost:5173",
   "https://trial-deploy-lilac.vercel.app"
 ];
 
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("CORS blocked"));
+  origin: (origin, callback) => {
+    // Allow requests with no origin (Postman, server-to-server)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
     }
+
+    // ❗ Do NOT throw error (this was breaking your backend)
+    return callback(null, false);
   },
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "x-language"],
   credentials: true
 }));
 
-// Apply middleware
+
+// ✅ IMPORTANT: middleware order
 app.use(express.json());
 app.use(detectLanguage);
 
-// Root test route
+
+// ✅ Root route
 app.get("/", (req, res) => {
   res.send("Biosynvanta API running");
 });
 
-// API routes
+
+// ✅ API routes
 app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/subcategories", subcategoryRoutes);
@@ -64,21 +70,31 @@ app.use("/api/inquiry", inquiryRoutes);
 app.use("/api/company-content", companyContentRoutes);
 app.use("/api/certificates", certificateRoutes);
 
-// Sample content population route
+
+// ✅ Sample content route
 app.get("/api/populate-sample-content", async (req, res) => {
   try {
     await populateSampleContent();
-    res.json({ success: true, message: "Sample content populated successfully!" });
+    res.json({
+      success: true,
+      message: "Sample content populated successfully!"
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Error populating content" });
+    res.status(500).json({
+      success: false,
+      message: "Error populating content"
+    });
   }
 });
 
-// Global error handler
+
+// ✅ Global error handler (keep LAST)
 app.use(errorHandler);
 
-// Start server
+
+// ✅ Start server
 const PORT = process.env.PORT || 5051;
+
 app.listen(PORT, () => {
   console.log(`Server Listening on port ${PORT}`);
 });
