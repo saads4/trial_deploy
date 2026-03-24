@@ -12,6 +12,8 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
+  const [dropdownTimeout, setDropdownTimeout] = useState(null);
+  const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(false);
   const navigate = useNavigate();
 
   // Supported languages for internationalization
@@ -50,6 +52,22 @@ export default function Navbar() {
     window.location.reload();
   };
 
+  // Dropdown hover handlers with timeout
+  const handleDropdownMouseEnter = () => {
+    if (dropdownTimeout) {
+      clearTimeout(dropdownTimeout);
+      setDropdownTimeout(null);
+    }
+    setDropdownOpen(true);
+  };
+
+  const handleDropdownMouseLeave = () => {
+    const timeout = setTimeout(() => {
+      setDropdownOpen(false);
+    }, 150); // 150ms delay
+    setDropdownTimeout(timeout);
+  };
+
   return (
     <nav className="bg-gray-50 shadow-sm relative z-50">
       <div className="container mx-auto px-6 py-4 flex items-center justify-between relative">
@@ -64,11 +82,14 @@ export default function Navbar() {
           <Link to="/" className="link-primary" style={{color: 'var(--deep-blue)'}}>Home</Link>
           <Link to="/about" className="link-primary" style={{color: 'var(--deep-blue)'}}>About Us</Link>
           {/* Products dropdown */}
-          <div className="relative">
+          <div 
+            className="relative"
+            onMouseEnter={handleDropdownMouseEnter}
+            onMouseLeave={handleDropdownMouseLeave}
+          >
             <div 
               className="flex items-center gap-1 cursor-pointer link-primary" 
               style={{color: 'var(--deep-blue)'}}
-              onMouseEnter={() => setDropdownOpen(true)}
             >
               <Link to="/categories">Products</Link>
               <ChevronDown size={16} />
@@ -77,8 +98,6 @@ export default function Navbar() {
               className={`absolute left-0 mt-3 w-56 bg-white shadow-lg rounded-lg py-3 transition-all duration-300 ease-in-out ${
                 dropdownOpen ? "opacity-100 translate-y-0 visible" : "opacity-0 -translate-y-2 invisible"
               }`}
-              onMouseEnter={() => setDropdownOpen(true)}
-              onMouseLeave={() => setDropdownOpen(false)}
             >
               {categories.map((cat) => (
                 <Link key={cat._id} to={`/products?category=${cat.slug}`} className="block px-4 py-2 hover:bg-blue-50">
@@ -112,8 +131,12 @@ export default function Navbar() {
         </div>
         {/* Mobile menu toggle */}
         <div className="md:hidden z-10">
-          <button onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? <X /> : <Menu />}
+          <button 
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            aria-label="Toggle menu"
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
@@ -121,37 +144,83 @@ export default function Navbar() {
       <div className={`md:hidden bg-white shadow-md transition-all duration-300 overflow-hidden ${
         isOpen ? "max-h-screen py-4" : "max-h-0"
       }`}>
-        <div className="flex flex-col gap-4 px-6" style={{color: 'var(--text-primary)'}}>
-          <Link to="/" onClick={() => setIsOpen(false)}>Home</Link>
-          <Link to="/about" onClick={() => setIsOpen(false)}>About</Link>
-          <Link to="/categories" onClick={() => setIsOpen(false)}>Products</Link>
-          {/* Mobile categories */}
+        <div className="flex flex-col gap-2 px-6" style={{color: 'var(--text-primary)'}}>
+          <Link 
+            to="/" 
+            onClick={() => setIsOpen(false)}
+            className="py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors font-medium"
+          >
+            Home
+          </Link>
+          <Link 
+            to="/about" 
+            onClick={() => setIsOpen(false)}
+            className="py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors font-medium"
+          >
+            About Us
+          </Link>
+          
+          {/* Mobile Products with collapsible categories */}
           <div>
-            <p className="font-semibold text-sm" style={{color: 'var(--text-secondary)'}}>Categories</p>
-            {categories.map((cat) => (
-              <button key={cat.slug} onClick={() => handleCategoryClick(cat.slug)} 
-                className="block text-left py-1" style={{color: 'var(--text-secondary)'}}>
-                {cat.name}
-              </button>
-            ))}
+            <button 
+              onClick={() => setMobileCategoriesOpen(!mobileCategoriesOpen)}
+              className="w-full py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors font-medium flex items-center justify-between"
+            >
+              <span>Products</span>
+              <ChevronDown 
+                size={16} 
+                className={`transition-transform duration-200 ${mobileCategoriesOpen ? 'rotate-180' : ''}`}
+              />
+            </button>
+            <div className={`overflow-hidden transition-all duration-300 ${
+              mobileCategoriesOpen ? 'max-h-96 mt-2' : 'max-h-0'
+            }`}>
+              <div className="bg-gray-50 rounded-lg p-2">
+                {categories.map((cat) => (
+                  <button 
+                    key={cat.slug} 
+                    onClick={() => handleCategoryClick(cat.slug)} 
+                    className="block w-full text-left py-2 px-3 rounded-md hover:bg-gray-200 transition-colors text-sm"
+                    style={{color: 'var(--text-secondary)'}}
+                  >
+                    {cat.name}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
+          
           {/* Mobile language selector */}
           <div className="border-t pt-4 mt-2">
-            <p className="font-semibold text-sm mb-3" style={{color: 'var(--text-secondary)'}}>Language</p>
-            <div className="flex flex-wrap gap-2">
+            <p className="font-semibold text-sm mb-3 px-4" style={{color: 'var(--text-secondary)'}}>Language</p>
+            <div className="flex flex-wrap gap-2 px-4">
               {supportedLanguages.map((lang) => (
-                <button key={lang.code} onClick={() => handleLanguageChange(lang.code)} 
+                <button 
+                  key={lang.code} 
+                  onClick={() => handleLanguageChange(lang.code)} 
                   className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                     language === lang.code ? 'bg-gradient-primary text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}>
+                  }`}
+                >
                   {lang.code.toUpperCase()}
                 </button>
               ))}
             </div>
           </div>
-          <Link to="/contact" onClick={() => setIsOpen(false)}>Contact</Link>
-          <Link to="/contact" className="bg-gradient-primary text-white text-center py-2 rounded-full" 
-            onClick={() => setIsOpen(false)}>
+          
+          <Link 
+            to="/contact" 
+            onClick={() => setIsOpen(false)}
+            className="py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors font-medium"
+          >
+            Contact Us
+          </Link>
+          
+          <Link 
+            to="/contact" 
+            className="bg-gradient-primary text-white text-center py-3 rounded-full font-medium mx-4 mt-2" 
+            onClick={() => setIsOpen(false)}
+          >
             Enquire Now
           </Link>
         </div>
