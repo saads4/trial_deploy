@@ -47,8 +47,6 @@ app.use(cors({
   credentials: true
 }));
 
-// 👇 VERY IMPORTANT (fixes preflight)
-app.options("*", cors());
 // Apply middleware
 app.use(express.json());
 app.use(detectLanguage);
