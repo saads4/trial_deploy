@@ -4,7 +4,7 @@ import axios from 'axios';
 // Create Axios instance with base configuration
 const api = axios.create({
   baseURL: process.env.NODE_ENV === 'production' 
-    ? 'https://trial-deploy-psrk.onrender.com/api' 
+    ? 'https://test.biosynvanta.com/api' 
     : '/api',
   timeout: 10000, // 10 second timeout
 });

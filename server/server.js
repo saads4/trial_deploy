@@ -32,7 +32,8 @@ const app = express();
 // ✅ CORS CONFIG (FIXED)
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://trial-deploy-lilac.vercel.app"
+  "https://trial-deploy-lilac.vercel.app",
+  "https://test.biosynvanta.com"
 ];
 
 app.use(cors({
