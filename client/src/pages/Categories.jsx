@@ -32,7 +32,7 @@ export default function Categories() {
     <div className="max-w-7xl mx-auto px-6 py-16 min-h-screen" style={{backgroundColor: 'var(--bg-light)'}}>
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-gradient mb-4">All Categories</h1>
-        <p className="text-lg" style={{color: 'var(--text-secondary)'}}>Explore our comprehensive range of medical categories</p>
+        <p className="text-lg" style={{color: 'var(--text-secondary)'}}>Explore our comprehensive range of Healthcare products</p>
       </div>
       
       {categories.length > 0 ? (

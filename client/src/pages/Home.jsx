@@ -170,6 +170,7 @@ export default function Home() {
               <Link
                 to="/about"
                 className="btn-primary"
+                onClick={() => window.scrollTo(0, 0)}
               >
                 Learn More
               </Link>
@@ -238,6 +239,7 @@ export default function Home() {
             <Link
               to="/categories"
               className="btn-secondary"
+              onClick={() => window.scrollTo(0, 0)}
             >
               View All Categories
             </Link>

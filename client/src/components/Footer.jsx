@@ -38,10 +38,10 @@ export default function Footer() {
         <div className="flex flex-col items-start">
           <h3 className="font-bold text-gray-900 mb-6 tracking-wide" style={{letterSpacing: '0.025em'}}>{t.quickLinks}</h3>
           <ul className="space-y-3 text-sm">
-            <li><Link to="/" className="footer-link-light">{t.home}</Link></li>
-            <li><Link to="/about" className="footer-link-light">{t.about}</Link></li>
-            <li><Link to="/products" className="footer-link-light">{t.products}</Link></li>
-            <li><Link to="/contact" className="footer-link-light">{t.contact}</Link></li>
+            <li><Link to="/" className="footer-link-light" onClick={() => window.scrollTo(0, 0)}>{t.home}</Link></li>
+            <li><Link to="/about" className="footer-link-light" onClick={() => window.scrollTo(0, 0)}>{t.about}</Link></li>
+            <li><Link to="/categories" className="footer-link-light" onClick={() => window.scrollTo(0, 0)}>{t.products}</Link></li>
+            <li><Link to="/contact" className="footer-link-light" onClick={() => window.scrollTo(0, 0)}>{t.contact}</Link></li>
           </ul>
         </div>
         <div className="flex flex-col items-start">

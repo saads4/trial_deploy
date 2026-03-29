@@ -108,7 +108,7 @@ export default function Contact() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold mb-2" style={{color: 'var(--text-primary)'}}>Address</h3>
-              <p style={{color: 'var(--text-secondary)'}} className="mb-2">A-301, Shah Complex-3, plot no.02, sector-13, Maharashtra, India</p>
+              <p style={{color: 'var(--text-secondary)'}} className="mb-2">A-301, Shah Complex-3, plot no.02, sector-13, Sanpada, Mumbai</p>
             </div>
           </div>
           {/* Map */}
