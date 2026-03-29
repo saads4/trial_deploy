@@ -1,6 +1,6 @@
 // Load environment variables
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ override: false });
 
 // Import core dependencies
 import express from "express";
