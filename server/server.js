@@ -1,6 +1,12 @@
 // Load environment variables
 import dotenv from "dotenv";
 dotenv.config({ override: false });
+console.log("ENV CHECK:", {
+  IMAGEKIT_PRIVATE_KEY: process.env.IMAGEKIT_PRIVATE_KEY,
+  MONGO_URI: process.env.MONGO_URI,
+  PORT: process.env.PORT,
+  NODE_ENV: process.env.NODE_ENV,
+});
 
 // Import core dependencies
 import express from "express";
